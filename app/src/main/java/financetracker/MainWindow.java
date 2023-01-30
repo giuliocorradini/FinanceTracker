@@ -1,37 +1,34 @@
 package financetracker;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
+
+import financetracker.gui.AddRecordWindow;
 
 public class MainWindow extends JFrame {
     private JPanel container;
     private JTable currentRecords_table;
     private JButton addRecord_button;
+    private AddRecordWindow popup;
 
-    public MainWindow() {
+    public MainWindow(BalanceModel model) {
         super();
 
         container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 
-        TableModel dt = new AbstractTableModel() {
-            public int getColumnCount() {return 10;}
-            public int getRowCount() {return 10;}
-            public Object getValueAt(int row, int col) {return row*col;}
-        };
+        GraphicalController controller = new MainWindowController(model);
 
-        BalanceModel bdt = new BalanceModel();
+        popup = new AddRecordWindow(this);
 
-        currentRecords_table = new JTable(bdt);
+        currentRecords_table = new JTable(model);
 
         addRecord_button = new JButton("Add");
         addRecord_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Adding record");
-                bdt.addRecord();
+                model.addRecord();
+                popup.setVisible(true);
             }
         });
 
