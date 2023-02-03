@@ -1,38 +1,41 @@
 package financetracker;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Record {
+    private int UID;
     private double amount;
     private String reason;
-    private Date datetime;
-    private String type;
+    private LocalDate date;
+    private static int object_counter = 0;
 
-    Record(double amount, String reason, Date datetime, String type) {
-        if (amount == 0)
-            throw new RecordConsistencyError("Record amount can't be equal to 0");
+    public Record(double amount, String reason, LocalDate date) {
 
-        if (amount < 0)
-            throw new RecordConsistencyError("Records must have a strictly positive amount");
+        object_counter++;
 
-        if (!type.equals("income") && !type.equals("outcome"))
-            throw new RecordConsistencyError("Invalid record type");
-
+        this.UID = object_counter;
         this.amount = amount;
         this.reason = reason;
-        this.datetime = datetime;
-        this.type = type;
-
-        if (type.equals("outcome"))
-            this.amount *= -1;
+        this.date = date;
     }
 
-    public static Record income(double amount, String reason, Date datetime) {
-        return new Record(amount, reason, datetime, "income");
+    /*
+     * Create a clone of an existing Record without updating the global UID counter,
+     * and without generating a new UID.
+     */
+    private Record(Record cloning) {
+        this.UID = cloning.UID;
+        this.amount = cloning.amount;
+        this.reason = cloning.reason;
+        this.date = cloning.date;
+    }
+
+    public static Record income(double amount, String reason, LocalDate date) {
+        return new Record(amount, reason, date);
     }
     
-    public static Record outcome(double amount, String reason, Date datetime) {
-        return new Record(amount, reason, datetime, "outcome");
+    public static Record outcome(double amount, String reason, LocalDate date) {
+        return new Record(-amount, reason, date);
     }
 
     public double getAmount() {
@@ -43,8 +46,12 @@ public class Record {
         return this.reason;
     }
 
-    public Date getDatetime() {
-        return this.datetime;
+    public void setReason(String new_reason) {
+        this.reason = new_reason;
+    }
+
+    public LocalDate getDate() {
+        return this.date;
     }
 
     /*
@@ -53,5 +60,23 @@ public class Record {
      */
     public static int getExportedFields() {
         return 3;
+    }
+
+    public int getUID() {
+        return UID;
+    }
+
+    /*
+     * Clone attributes (amount, reason, income) from a clone or another Record object,
+     * without copying the UID.
+     */
+    public void cloneAttributesFrom(Record r) {
+        this.amount = r.amount;
+        this.reason = r.reason;
+        this.date = r.date;
+    }
+
+    public Record clone() {
+        return new Record(this);
     }
 }

@@ -1,5 +1,6 @@
 package financetracker;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -21,9 +22,25 @@ public class BalanceModel implements TableModel {
         b = balance;
     }
 
-    public void addRecord() {
-        b.addRecord(Record.income(100, "test income", null));
+    public void addRecord(int amount, String reason, LocalDate datetime) {
+        if(amount >= 0)
+            b.addRecord(Record.income(amount, reason, datetime));
+        else
+            b.addRecord(Record.outcome(-amount, reason, datetime));
         updateListeners(new TableModelEvent(this));
+    }
+
+    public Record searchRecord(String reason_key) {
+        return b.searchRecord(reason_key);
+    }
+
+    public void editRecord(Record r, String reason) {
+        r.setReason(reason);
+        //updateListeners
+    }
+
+    public double getBalance() {
+        return b.getRecordSum();
     }
 
     @Override
@@ -81,7 +98,7 @@ public class BalanceModel implements TableModel {
                 case 2:
                     return r.getReason();
                 case 3:
-                    return r.getDatetime();
+                    return r.getDate();
             }
         } catch (IndexOutOfBoundsException e) {
             return null;

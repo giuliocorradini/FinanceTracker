@@ -6,3 +6,6 @@ build
 
 # Ignore VSCode settings
 .vscode
+
+
+.idea
