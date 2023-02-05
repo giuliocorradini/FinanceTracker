@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.stream.*;
 
 public class Balance implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -66,6 +67,11 @@ public class Balance implements Serializable {
 
     public Object[] getRecords() {
         return this.container.toArray();
+    }
+
+    public Stream<Record> stream() {
+        return this.container.stream()
+                             .map(r -> r.clone());
     }
 
     /*

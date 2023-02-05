@@ -81,4 +81,9 @@ public class Record implements Serializable {
     public Record clone() {
         return new Record(this);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Record - %s of %.2f in date %s", reason, amount, date.toString());
+    }
 }

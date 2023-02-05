@@ -2,6 +2,7 @@ package financetracker;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.regex.Pattern;
 
 public class App {
 
@@ -54,5 +55,12 @@ public class App {
         Balance loaded_b = p.loadData();
         System.out.println("Il bilancio caricato ha " + loaded_b.getRecordCount() + " record");
         System.out.println("Totale del bilancio: " + loaded_b.getRecordSum());
+
+        // Free text search
+        BalanceSearchEngine se = new BalanceSearchEngine(bm);
+        System.out.println("Risultato della ricerca:");
+        for(Record r: se.search("banco").toList()) {
+            System.out.println(r);
+        }
     }
 }
