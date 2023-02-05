@@ -1,11 +1,13 @@
 package financetracker;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Balance {
+public class Balance implements Serializable {
+    private static final long serialVersionUID = 1L;
     List<Record> container;
 
     public Balance() {

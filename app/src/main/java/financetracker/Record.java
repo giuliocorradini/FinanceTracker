@@ -1,9 +1,11 @@
 package financetracker;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Record {
-    private int UID;
+public class Record implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private transient int UID;
     private double amount;
     private String reason;
     private LocalDate date;

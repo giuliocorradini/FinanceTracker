@@ -45,5 +45,14 @@ public class App {
         for(Record r: filtered) {
             System.out.println(r.getReason() + " " + r.getDate());
         }
+
+        // Save data
+        Persistence p = new Persistence();
+        p.saveData(bm);
+
+        // Load data
+        Balance loaded_b = p.loadData();
+        System.out.println("Il bilancio caricato ha " + loaded_b.getRecordCount() + " record");
+        System.out.println("Totale del bilancio: " + loaded_b.getRecordSum());
     }
 }
