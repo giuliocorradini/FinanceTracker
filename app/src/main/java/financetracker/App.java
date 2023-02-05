@@ -1,5 +1,6 @@
 package financetracker;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.regex.Pattern;
@@ -62,5 +63,14 @@ public class App {
         for(Record r: se.search("banco").toList()) {
             System.out.println(r);
         }
+
+        // Export to CSV
+        Export csv_e = new CSV(bm, "financetracker.csv");
+        try {
+            csv_e.export();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
     }
 }
