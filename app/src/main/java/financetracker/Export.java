@@ -6,7 +6,7 @@ import java.io.*;
  * Implements export in different formats
  */
 public abstract class Export {
-    private FileWriter file;
+    private FileOutputStream file;
     private String path;
 
     public Export(String export_path) {
@@ -14,7 +14,7 @@ public abstract class Export {
     }
 
     private void openFile() throws IOException {
-        this.file = new FileWriter(path);
+        this.file = new FileOutputStream(path);
     }
 
     public void export() throws IOException {
@@ -23,5 +23,5 @@ public abstract class Export {
         this.file.close();
     }
 
-    protected abstract void generate(Writer w) throws IOException;
+    protected abstract void generate(OutputStream w) throws IOException;
 }

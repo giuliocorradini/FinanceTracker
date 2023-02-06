@@ -65,8 +65,8 @@ public class Balance implements Serializable {
         }
     }
 
-    public Object[] getRecords() {
-        return this.container.toArray();
+    public Record[] getRecords() {
+        return this.container.toArray(Record[]::new);
     }
 
     public Stream<Record> stream() {

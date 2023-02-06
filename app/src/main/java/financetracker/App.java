@@ -71,6 +71,12 @@ public class App {
         } catch (IOException e) {
             System.out.println(e);
         }
-
+        //      Export to OpenDocument
+        Export ods_e = new OpenDocument(bm, "financetracker.ods");
+        try {
+            ods_e.export();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 }
