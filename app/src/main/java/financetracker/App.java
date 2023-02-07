@@ -1,11 +1,32 @@
 package financetracker;
 
+import java.io.IOError;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.regex.Pattern;
 
-public class App {
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+
+public class App extends Application {
 
     public static void main(String[] args) {
         Balance bm = new Balance();
@@ -78,5 +99,26 @@ public class App {
         } catch (IOException e) {
             System.out.println(e);
         }
+
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("FinanceTracker");
+
+        Parent root = null;
+
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("App.fxml"));
+        } catch (IOException e) {
+            System.err.println(e);
+            System.exit(-1);
+        }
+
+        Scene scene = new Scene(root, 300, 275);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
