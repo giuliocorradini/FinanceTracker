@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.MainWindowController">
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-            <TableColumn minWidth="6.0" prefWidth="27.0" />
-          <TableColumn prefWidth="108.0" text="Date" />
-          <TableColumn minWidth="0.0" prefWidth="108.0" text="Amount" />
-            <TableColumn prefWidth="356.0" text="Reason" />
+            <TableColumn id="selectColumn" minWidth="6.0" prefWidth="27.0" />
+          <TableColumn id="dateColumn" prefWidth="108.0" text="Date" />
+          <TableColumn id="amountColumn" minWidth="0.0" prefWidth="108.0" text="Amount" />
+            <TableColumn id="reasonColumn" prefWidth="356.0" text="Reason" />
         </columns>
       </TableView>
    </center>
@@ -47,8 +38,8 @@
             <Label text="Income:" />
             <Label text="Outcome:" />
             <Label text="Flow:" />
-            <ChoiceBox prefWidth="150.0" />
-            <Button mnemonicParsing="false" text="Add" />
+            <ChoiceBox id="periodSelector" prefWidth="150.0" />
+            <Button id="addButton" mnemonicParsing="false" text="Add" onAction="#handleAddRecordSubmitAction"/>
          </children>
       </HBox>
    </bottom>
