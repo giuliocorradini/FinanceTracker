@@ -3,24 +3,17 @@ package financetracker;
 import java.io.*;
 
 /*
- * Implements export in different formats
+ * Implements export in different formats.
+ * Uses the Execute Around pattern.
  */
 public abstract class Export {
-    private FileOutputStream file;
-    private String path;
-
-    public Export(String export_path) {
-        this.path = export_path;
-    }
-
-    private void openFile() throws IOException {
-        this.file = new FileOutputStream(path);
-    }
-
-    public void export() throws IOException {
-        this.openFile();
-        this.generate(this.file);
-        this.file.close();
+    public void export(String path) throws IOException {
+        FileOutputStream f = new FileOutputStream(path);
+        try {
+            this.generate(f);
+        } finally {
+            f.close();  // This will be called, no matter what Exception arises
+        }
     }
 
     protected abstract void generate(OutputStream w) throws IOException;

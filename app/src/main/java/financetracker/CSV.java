@@ -10,8 +10,7 @@ import java.util.stream.Stream;
 public class CSV extends Export {
     private Balance balance;
 
-    public CSV(Balance b, String path) {
-        super(path);
+    public CSV(Balance b) {
         this.balance = b;
     }
 

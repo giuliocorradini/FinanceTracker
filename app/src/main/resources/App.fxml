@@ -23,8 +23,12 @@
                 <menus>
                     <Menu mnemonicParsing="false" text="File">
                         <items>
-                            <MenuItem mnemonicParsing="false" text="Save" />
-                            <MenuItem mnemonicParsing="false" text="Export" />
+                            <MenuItem mnemonicParsing="false" text="Save" onAction="#handleSave" />
+                            <MenuItem mnemonicParsing="false" text="Load" onAction="#handleLoad" />
+                            <Menu mnemonicParsing="false" text="Export...">
+                                <MenuItem mnemonicParsing="false" text="CSV" onAction="#handleExport" fx:id="csvExportMenuItem" />
+                                <MenuItem mnemonicParsing="false" text="OpenDocument" onAction="#handleExport" fx:id="openDocumentExportMenuItem" />
+                            </Menu>
                         </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">

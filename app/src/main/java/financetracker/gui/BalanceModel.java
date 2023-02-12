@@ -6,6 +6,7 @@ import financetracker.Summary;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableListBase;
 
@@ -13,6 +14,9 @@ import java.time.LocalDate;
 
 public class BalanceModel {
     private Balance dao;
+    public Balance getDao() {
+        return dao;
+    }
 
     private ObservableList<Record> records;
     public ObservableList<Record> getRecords() {
@@ -61,6 +65,21 @@ public class BalanceModel {
         this.income = new SimpleDoubleProperty(s.income());
         this.outcome = new SimpleDoubleProperty(s.outcome());
         this.flow = new SimpleDoubleProperty(s.flow());
+
+        this.records.addListener((ListChangeListener<Record>)c -> {
+            updateSummary();
+        });
+    }
+
+    private void updateSummary() {
+        Summary s = this.dao.getBalanceSummary();
+        this.setIncome(s.income());
+        this.setOutcome(s.outcome());
+        this.setFlow(s.flow());
+    }
+
+    private void updateModelFromDAO() {
+        this.records.setAll(this.dao.getRecordList());  //TODO: profile memory consumption
     }
 
     public void addRecord(double amount, String reason, LocalDate date) {
@@ -68,6 +87,11 @@ public class BalanceModel {
         this.dao.addRecord(amount, reason, date);
 
         //Retrieve updated data from DAO
-        this.records.setAll(this.dao.getRecordList());  //TODO: profile memory consumption
+        updateModelFromDAO();
+    }
+
+    public void replaceDAO(Balance b) {
+        this.dao = b;
+        updateModelFromDAO();
     }
 }

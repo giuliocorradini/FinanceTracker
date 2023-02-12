@@ -10,8 +10,7 @@ public class ColumnarExport extends Export {
     private Balance balance;
     private String separator;
 
-    public ColumnarExport(Balance b, String path, String separator) {
-        super(path);
+    public ColumnarExport(Balance b, String separator) {
         this.balance = b;
         this.separator = separator;
     }

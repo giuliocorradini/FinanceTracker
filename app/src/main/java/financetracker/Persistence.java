@@ -1,60 +1,45 @@
 package financetracker;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.*;
 
 public class Persistence {
-    private FileOutputStream ofd;
-    private ObjectOutputStream out_filter;
-    private FileInputStream ifd;
-    private ObjectInputStream in_filter;
-    private String savepath;
+    private Balance balance;
 
-    public Persistence(String path) {
-        this.savepath = path;
+    public Persistence(Balance b) {
+        this.balance = b;
     }
 
     public Persistence() {
-        this("financetracker.db");
+        this(null);
     }
 
-    public void setSavepath(String path) {
-        this.savepath = path;
-    }
+    public void saveData(String path) throws IOException {
+        FileOutputStream stream = new FileOutputStream(path);
+        ObjectOutputStream out = new ObjectOutputStream(stream);
 
-    private void openOutputFile() throws IOException {
-        this.ofd = new FileOutputStream(this.savepath);
-        this.out_filter = new ObjectOutputStream(this.ofd);
-    }
-
-    private void openInputFile() throws IOException {
-        this.ifd = new FileInputStream(this.savepath);
-        this.in_filter = new ObjectInputStream(this.ifd);
-    }
-
-    public void saveData(Balance b) {
         try {
-            this.openOutputFile();
-            this.out_filter.writeObject(b);
-            this.out_filter.close();
-            this.ofd.close();
-        } catch (IOException e) {
-            System.err.println(e);
+            if(this.balance != null)
+                out.writeObject(this.balance);
+        } finally {
+            stream.close();
         }
     }
 
-    public Balance loadData() {
-        Balance loaded = null;
+    public static Balance loadData(String path) throws IOException {
+        FileInputStream stream = new FileInputStream(path);
+        ObjectInputStream in = new ObjectInputStream(stream);
 
         try {
-            this.openInputFile();
-            loaded = (Balance) this.in_filter.readObject();
-            this.ifd.close();
-        } catch (IOException e) {
-            System.err.println(e);
-        } catch (ClassNotFoundException e) {
-            System.err.println("The object in file is of an unknown class");
+            Balance b = (Balance) in.readObject();
+            return b;
+        } catch(ClassNotFoundException e) {
+            System.err.println("The object in file is of an unknown class. Your data might be corrupted.");
+        } finally {
+            stream.close();
         }
 
-        return loaded;
+        return null;
     }
 }
