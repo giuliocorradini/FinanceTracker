@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.stream.*;
 
+
+/*
+ * Data Access Object for records
+ */
 public class Balance implements Serializable {
     private static final long serialVersionUID = 1L;
     List<Record> container;
@@ -19,7 +23,7 @@ public class Balance implements Serializable {
         this.container.add(r);
     }
 
-    public void addRecord(int amount, String reason, LocalDate datetime) {
+    public void addRecord(double amount, String reason, LocalDate datetime) {
         Record r = new Record(amount, reason, datetime);
         this.addRecord(r);
     }
@@ -93,5 +97,9 @@ public class Balance implements Serializable {
 
     public Record getRecordAt(int index) {
         return this.container.get(index);
+    }
+
+    public List<Record> getRecordList() {
+        return this.container;
     }
 }

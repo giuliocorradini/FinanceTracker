@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 
+import financetracker.gui.BalanceModel;
 import financetracker.gui.StageManager;
+import financetracker.gui.ViewLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,32 +15,34 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
 public class App extends Application {
+    BalanceModel model;
 
-    public static void main(String[] args) {
-        Balance bm = new Balance();
+    public App() {
+        super();
+    }
 
-        launch(args);
+    @Override
+    public void init() {
+        Balance b = new Balance();
+        model = new BalanceModel(b);
+
     }
 
     @Override
     public void start(Stage primaryStage) {
-        // Setup primaryStage
+        Parent root = ViewLoader.load(
+                "App.fxml",
+                cls -> { return ControllerFactory.buildController(cls, model); }   //this lambda IS the factory method
+        );
+
+        Scene scene = new Scene(root, 600, 400);
+
+        primaryStage.setScene(scene);
         primaryStage.setTitle("FinanceTracker");
+        primaryStage.show();
+    }
 
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("App.fxml"));
-        } catch (IOException e) {
-            System.err.println(e);
-            System.exit(-1);
-        }
-
-
-        Scene mainScene = new Scene(root, 600, 400);
-
-        StageManager sm = StageManager.getStageManager();
-        sm.setPrimaryStage(primaryStage);
-        sm.showScene(mainScene);
+    public static void main(String[] args) {
+        launch(args);
     }
 }
