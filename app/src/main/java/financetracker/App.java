@@ -1,18 +1,11 @@
 package financetracker;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Month;
-
 import financetracker.gui.BalanceModel;
-import financetracker.gui.StageManager;
 import financetracker.gui.ViewLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 public class App extends Application {
     BalanceModel model;
@@ -25,7 +18,6 @@ public class App extends Application {
     public void init() {
         Balance b = new Balance();
         model = new BalanceModel(b);
-
     }
 
     @Override

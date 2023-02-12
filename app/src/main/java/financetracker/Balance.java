@@ -1,5 +1,7 @@
 package financetracker;
 
+import org.apache.jena.reasoner.rulesys.builtins.Sum;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
@@ -73,6 +75,9 @@ public class Balance implements Serializable {
         return this.container.toArray(Record[]::new);
     }
 
+    /*
+     * Returns a stream of clones
+     */
     public Stream<Record> stream() {
         return this.container.stream()
                              .map(r -> r.clone());
@@ -85,7 +90,7 @@ public class Balance implements Serializable {
         return this.container.stream()
                 .map(r -> r.getAmount())
                 .reduce((sub, a) -> sub + a)
-                .get();
+                .orElse(0.0);
     }
 
     public double getRecordIncomeSum() {
@@ -93,7 +98,7 @@ public class Balance implements Serializable {
                 .map(r -> r.getAmount())
                 .filter(x -> x > 0)
                 .reduce((sub, a) -> sub + a)
-                .get();
+                .orElse(0.0);
     }
 
     public double getRecordOutcomeSum() {
@@ -101,7 +106,7 @@ public class Balance implements Serializable {
                 .map(r -> r.getAmount())
                 .filter(x -> x < 0)
                 .reduce((sub, a) -> sub + a)
-                .get();
+                .orElse(0.0);
     }
 
     public int getRecordCount() {
@@ -112,11 +117,21 @@ public class Balance implements Serializable {
         return this.container.get(index);
     }
 
+    /*
+     * Return a list of Record clones
+     */
     public List<Record> getRecordList() {
+        return stream().toList();
+    }
+
+    public List<Record> getUnderlyingRecordList() {
         return this.container;
     }
 
     public Summary getBalanceSummary() {
+        if (getRecordCount() < 1)
+            return new Summary(0, 0,0);
+
         return new Summary(
                 getRecordIncomeSum(),
                 getRecordOutcomeSum(),

@@ -1,6 +1,7 @@
 package financetracker.gui;
 
 import financetracker.Balance;
+import financetracker.ControllerFactory;
 import financetracker.ModelInjectable;
 import financetracker.Record;
 import javafx.beans.property.*;
@@ -14,8 +15,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -34,32 +39,15 @@ public class AppController implements ModelInjectable {
     @FXML private Text incomeSummary;
     @FXML private Text outcomeSummary;
     @FXML private Text flowSummary;
+    @FXML private Pane addRecordDialog;
 
     public void setModel(BalanceModel model) {
         this.model = model;
     }
 
-    private Parent loadDialogRoot() {
-        Parent dialog_root = null;
-
-        try {
-            dialog_root = FXMLLoader.load(getClass().getClassLoader().getResource("AddRecordDialog.fxml"));
-        } catch (IOException e) {
-            System.out.println("Error in loading record dialog");
-        }
-
-        return dialog_root;
-    }
-
-    @FXML protected void handleAddRecordSubmitAction(ActionEvent evt) {
-
-        System.out.println("Clicked on addButton");
-
-        // Setup addRecordStage
-        Parent addRecordRoot = loadDialogRoot();
-        Scene addRecordScene = new Scene(addRecordRoot, 600, 400, Color.TRANSPARENT);
-
-        StageManager.getStageManager().showScene(addRecordScene);
+    @FXML protected void handleAddButtonClick(ActionEvent evt) {
+        addRecordDialog.setVisible(true);
+        addRecordDialog.setManaged(true);
     }
 
     /*
@@ -67,6 +55,9 @@ public class AppController implements ModelInjectable {
      * already populated.
      */
     @FXML public void initialize() {
+        addRecordDialog.setVisible(false);
+        addRecordDialog.setManaged(false);
+
         recordTable.setItems(this.model.getRecords());
 
         selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
