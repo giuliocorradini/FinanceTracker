@@ -1,57 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import financetracker.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import financetracker.PeriodFilter?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.AppController">
-   <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="recordTable">
-        <columns>
-            <TableColumn fx:id="selectColumn" minWidth="6.0" prefWidth="27.0" />
-          <TableColumn fx:id="dateColumn" prefWidth="108.0" text="Date" />
-          <TableColumn fx:id="amountColumn" minWidth="0.0" prefWidth="108.0" text="Amount" />
-            <TableColumn fx:id="reasonColumn" prefWidth="356.0" text="Reason" />
-        </columns>
-      </TableView>
-   </center>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Export" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-                  <MenuItem mnemonicParsing="false" text="Edit selected" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <bottom>
-      <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Income:" />
-            <Label text="Outcome:" />
-            <Label text="Flow:" />
-             <ChoiceBox id="periodSelector" prefWidth="150.0">
-                 <items>
-                     <FXCollections fx:factory="observableArrayList">
-                        <PeriodFilter fx:value="ALL"/>
-                         <PeriodFilter fx:value="THIS_WEEK"/>
-                         <PeriodFilter fx:value="THIS_MONTH"/>
-                         <PeriodFilter fx:value="THIS_YEAR"/>
-                     </FXCollections>
-                 </items>
-             </ChoiceBox>
-            <Button id="addButton" mnemonicParsing="false" text="Add" onAction="#handleAddRecordSubmitAction"/>
-         </children>
-      </HBox>
-   </bottom>
+    <center>
+        <TableView fx:id="recordTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="selectColumn" minWidth="6.0" prefWidth="27.0" />
+                <TableColumn fx:id="dateColumn" prefWidth="108.0" text="Date" />
+                <TableColumn fx:id="amountColumn" minWidth="0.0" prefWidth="108.0" text="Amount" />
+                <TableColumn fx:id="reasonColumn" prefWidth="356.0" text="Reason" />
+            </columns>
+        </TableView>
+    </center>
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Export" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" text="Edit selected" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Income:" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="incomeSummary" />
+                <Label text="Outcome:" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="outcomeSummary" />
+                <Label text="Flow:" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" />
+                <ChoiceBox id="periodSelector" prefWidth="150.0">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <PeriodFilter fx:value="ALL" />
+                            <PeriodFilter fx:value="THIS_WEEK" />
+                            <PeriodFilter fx:value="THIS_MONTH" />
+                            <PeriodFilter fx:value="THIS_YEAR" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+                <Button id="addButton" mnemonicParsing="false" onAction="#handleAddRecordSubmitAction" text="Add" />
+            </children>
+        </HBox>
+    </bottom>
 </BorderPane>

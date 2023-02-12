@@ -81,14 +81,27 @@ public class Balance implements Serializable {
     /*
      * @return the algebraic sum of all the currently displayed records
      */
-    public double getRecordSum() {
-        double sum = 0;
+    public double getRecordFlow() {
+        return this.container.stream()
+                .map(r -> r.getAmount())
+                .reduce((sub, a) -> sub + a)
+                .get();
+    }
 
-        for (Record record : container) {
-            sum += record.getAmount();
-        }
+    public double getRecordIncomeSum() {
+        return this.container.stream()
+                .map(r -> r.getAmount())
+                .filter(x -> x > 0)
+                .reduce((sub, a) -> sub + a)
+                .get();
+    }
 
-        return sum;
+    public double getRecordOutcomeSum() {
+        return this.container.stream()
+                .map(r -> r.getAmount())
+                .filter(x -> x < 0)
+                .reduce((sub, a) -> sub + a)
+                .get();
     }
 
     public int getRecordCount() {
@@ -101,5 +114,13 @@ public class Balance implements Serializable {
 
     public List<Record> getRecordList() {
         return this.container;
+    }
+
+    public Summary getBalanceSummary() {
+        return new Summary(
+                getRecordIncomeSum(),
+                getRecordOutcomeSum(),
+                getRecordFlow()
+        );
     }
 }
