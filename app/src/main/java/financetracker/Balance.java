@@ -1,10 +1,8 @@
 package financetracker;
 
-import org.apache.jena.reasoner.rulesys.builtins.Sum;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.stream.*;
@@ -14,11 +12,12 @@ import java.util.stream.*;
  * Data Access Object for records
  */
 public class Balance implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     List<Record> container;
 
     public Balance() {
-        this.container = new LinkedList<Record>();
+        this.container = new LinkedList<>();
     }
 
     public void addRecord(Record r) {
@@ -80,7 +79,7 @@ public class Balance implements Serializable {
      */
     public Stream<Record> stream() {
         return this.container.stream()
-                             .map(r -> r.clone());
+                             .map(Record::clone);
     }
 
     /*
@@ -88,24 +87,24 @@ public class Balance implements Serializable {
      */
     public double getRecordFlow() {
         return this.container.stream()
-                .map(r -> r.getAmount())
-                .reduce((sub, a) -> sub + a)
+                .map(Record::getAmount)
+                .reduce(Double::sum)
                 .orElse(0.0);
     }
 
     public double getRecordIncomeSum() {
         return this.container.stream()
-                .map(r -> r.getAmount())
+                .map(Record::getAmount)
                 .filter(x -> x > 0)
-                .reduce((sub, a) -> sub + a)
+                .reduce(Double::sum)
                 .orElse(0.0);
     }
 
     public double getRecordOutcomeSum() {
         return this.container.stream()
-                .map(r -> r.getAmount())
+                .map(Record::getAmount)
                 .filter(x -> x < 0)
-                .reduce((sub, a) -> sub + a)
+                .reduce(Double::sum)
                 .orElse(0.0);
     }
 

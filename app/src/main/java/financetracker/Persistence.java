@@ -1,7 +1,5 @@
 package financetracker;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.*;
 
 public class Persistence {
@@ -9,10 +7,6 @@ public class Persistence {
 
     public Persistence(Balance b) {
         this.balance = b;
-    }
-
-    public Persistence() {
-        this(null);
     }
 
     public void saveData(String path) throws IOException {
@@ -32,8 +26,7 @@ public class Persistence {
         ObjectInputStream in = new ObjectInputStream(stream);
 
         try {
-            Balance b = (Balance) in.readObject();
-            return b;
+            return (Balance) in.readObject();
         } catch(ClassNotFoundException e) {
             System.err.println("The object in file is of an unknown class. Your data might be corrupted.");
         } finally {

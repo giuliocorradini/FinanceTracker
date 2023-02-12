@@ -24,7 +24,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Parent root = ViewLoader.load(
                 "App.fxml",
-                cls -> { return ControllerFactory.buildController(cls, model); }   //this lambda IS the factory method
+                cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
         );
 
         Scene scene = new Scene(root, 600, 400);

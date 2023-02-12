@@ -1,14 +1,7 @@
 package financetracker;
 
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.List;
 
 import org.odftoolkit.odfdom.doc.*;
@@ -23,7 +16,7 @@ public class OpenDocument extends Export {
     }
 
     @Override
-    protected void generate(OutputStream w) throws IOException {
+    protected void generate(OutputStream w) {
 
         try (OdfSpreadsheetDocument ods = OdfSpreadsheetDocument.newSpreadsheetDocument()) {
             List<OdfTable> tables = ods.getSpreadsheetTables();
@@ -35,16 +28,10 @@ public class OpenDocument extends Export {
                 for(int col=0; col<3; col++) {
                     OdfTableCell cell = main_sheet.getCellByPosition(col, row);
 
-                    switch(col) {
-                        case 0:
-                            cell.setStringValue(r.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                            break;
-                        case 1:
-                            cell.setCurrencyValue(r.getAmount(), "EUR");
-                            break;
-                        case 2:
-                            cell.setStringValue(r.getReason());
-                            break;
+                    switch (col) {
+                        case 0 -> cell.setStringValue(r.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                        case 1 -> cell.setCurrencyValue(r.getAmount(), "EUR");
+                        case 2 -> cell.setStringValue(r.getReason());
                     }
                 }
 

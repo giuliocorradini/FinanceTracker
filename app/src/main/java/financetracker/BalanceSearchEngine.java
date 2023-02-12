@@ -15,10 +15,7 @@ public class BalanceSearchEngine {
     public Stream<Record> search(String query) {
         Pattern q = Pattern.compile(Pattern.quote(query));
 
-        Stream<Record> results = base.stream()
-                                     .filter(r -> q.matcher(r.getReason())
-                                                             .find());
-
-        return results;
+        return base.stream()
+                .filter(r -> q.matcher(r.getReason()).find());
     }
 }

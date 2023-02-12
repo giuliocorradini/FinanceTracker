@@ -1,22 +1,16 @@
 package financetracker.gui;
 
-import financetracker.*;
 import financetracker.Record;
-import javafx.beans.property.*;
+import financetracker.*;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +20,6 @@ public class AppController implements ModelInjectable {
 
     private BalanceModel model;
 
-    @FXML private Button addButton;
     @FXML private ChoiceBox<String> periodSelector;
     @FXML private TableView<Record> recordTable;
     @FXML private TableColumn<Record, LocalDate> dateColumn;
@@ -55,28 +48,20 @@ public class AppController implements ModelInjectable {
         recordTable.setItems(this.model.getRecords());
 
         selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
-        selectColumn.setCellValueFactory(cell -> {
-            return new ReadOnlyBooleanWrapper(false);
-        });
+        selectColumn.setCellValueFactory(cell -> new ReadOnlyBooleanWrapper(false));
 
-        dateColumn.setCellValueFactory(cell -> {
-            return new ReadOnlyObjectWrapper<LocalDate>(cell.getValue().getDate());
-        });
+        dateColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getDate()));
 
-        amountColumn.setCellValueFactory(cell -> {
-            return new ReadOnlyObjectWrapper<String>(String.format("%.2f", cell.getValue().getAmount()));
-        });
+        amountColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format("%.2f", cell.getValue().getAmount())));
 
-        reasonColumn.setCellValueFactory(cell -> {
-            return new ReadOnlyObjectWrapper<String>(cell.getValue().getReason());
-        });
+        reasonColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getReason()));
 
         incomeSummary.textProperty().bind(this.model.incomeProperty().asString("%.2f"));
         outcomeSummary.textProperty().bind(this.model.outcomeProperty().asString("%.2f"));
         flowSummary.textProperty().bind(this.model.flowProperty().asString("%.2f"));
     }
 
-    @FXML protected void handleAddButtonClick(ActionEvent evt) {
+    @FXML protected void handleAddButtonClick() {
         addRecordDialog.setVisible(true);
         addRecordDialog.setManaged(true);
     }
@@ -85,8 +70,8 @@ public class AppController implements ModelInjectable {
         FileChooser fChooser = new FileChooser();
         fChooser.setTitle("Export...");
 
-        String extension = "";
-        Export exporter = null;
+        String extension;
+        Export exporter;
 
         if(evt.getSource() == csvExportMenuItem) {
             extension = ".csv";
@@ -135,10 +120,8 @@ public class AppController implements ModelInjectable {
         File file = fChooser.showOpenDialog(recordTable.getScene().getWindow());
 
         if(file != null) {
-            Persistence p = new Persistence();
-
             try {
-                Balance b = p.loadData(file.getAbsolutePath());
+                Balance b = Persistence.loadData(file.getAbsolutePath());
                 this.model.replaceDAO(b);
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't load the specified file.", ButtonType.OK);

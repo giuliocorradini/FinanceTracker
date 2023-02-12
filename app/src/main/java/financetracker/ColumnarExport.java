@@ -15,7 +15,7 @@ public class ColumnarExport extends Export {
         this.separator = separator;
     }
 
-    private String recordToCSV(Record r) {
+    private String recordToColumnar(Record r) {
         return String.format("%.2f%s\"%s\"%s%s\n", r.getAmount(), this.separator, r.getReason(), this.separator, r.getDate().toString());
     }
 
@@ -24,7 +24,7 @@ public class ColumnarExport extends Export {
 
         OutputStreamWriter osw = new OutputStreamWriter(w);
 
-        Stream<String> out = this.balance.stream().map(r -> this.recordToCSV(r));
+        Stream<String> out = this.balance.stream().map(this::recordToColumnar);
 
         for(String s: out.toList()) {
             osw.write(s);

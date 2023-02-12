@@ -3,12 +3,10 @@ package financetracker.gui;
 import financetracker.Balance;
 import financetracker.Record;
 import financetracker.Summary;
-import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 
 import java.time.LocalDate;
 
@@ -66,9 +64,7 @@ public class BalanceModel {
         this.outcome = new SimpleDoubleProperty(s.outcome());
         this.flow = new SimpleDoubleProperty(s.flow());
 
-        this.records.addListener((ListChangeListener<Record>)c -> {
-            updateSummary();
-        });
+        this.records.addListener((ListChangeListener<Record>)c -> updateSummary());
     }
 
     private void updateSummary() {
