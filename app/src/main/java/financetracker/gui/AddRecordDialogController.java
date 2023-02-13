@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
+import java.time.LocalDate;
+
 
 public class AddRecordDialogController implements ModelInjectable {
     private BalanceModel model;
@@ -20,7 +22,7 @@ public class AddRecordDialogController implements ModelInjectable {
             if(nv) {
                 reason.clear();
                 amount.clear();
-                date.getEditor().clear();
+                date.setValue(LocalDate.now());
             }
         });
     }
