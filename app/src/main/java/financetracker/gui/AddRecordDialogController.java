@@ -56,4 +56,17 @@ public class AddRecordDialogController implements ModelInjectable {
     @FXML protected void handleCancel(ActionEvent e) {
         closeThisDialog();
     }
+
+    public void setIncome() {
+        String user_input = amount.getText();
+
+        amount.setText(user_input.replaceFirst("^-", ""));
+    }
+
+    public void setOutcome() {
+        String user_input = amount.getText();
+
+        user_input = user_input.replaceFirst("^-", "");
+        amount.setText("-" + user_input);
+    }
 }

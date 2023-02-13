@@ -4,9 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.AddRecordDialogController" fx:id="addRecordDialog" stylesheets="AddRecordDialog.css">
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dialog-title" text="Add record" />
          </children>
@@ -27,6 +29,24 @@
             <TextField fx:id="reason" />
             <Label text="Amount" />
             <TextField fx:id="amount" />
+            <ButtonBar>
+               <buttons>
+                  <Button text="Income" onAction="#setIncome">
+                     <graphic>
+                        <ImageView preserveRatio="true" fitHeight="18">
+                           <Image url="income.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="Outcome" onAction="#setOutcome">
+                     <graphic>
+                        <ImageView preserveRatio="true" fitHeight="18">
+                           <Image url="outcome.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </buttons>
+            </ButtonBar>
             <Label text="Date" />
             <DatePicker fx:id="date" />
          </children>
