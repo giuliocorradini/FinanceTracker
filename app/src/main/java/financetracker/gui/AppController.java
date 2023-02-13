@@ -1,6 +1,8 @@
 package financetracker.gui;
 
 import financetracker.*;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -37,6 +39,7 @@ public class AppController implements ModelInjectable {
     @FXML private Pane addRecordDialog;
     @FXML private MenuItem csvExportMenuItem;
     @FXML private MenuItem openDocumentExportMenuItem;
+    @FXML private TableColumn<RecordTableModel, Boolean> recordTypeColumn;
 
     public void setModel(BalanceModel model) {
         this.model = model;
@@ -75,6 +78,9 @@ public class AppController implements ModelInjectable {
         amountColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format("%.2f", cell.getValue().getAmount())));
 
         reasonColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getReason()));
+
+        recordTypeColumn.setCellValueFactory(cell -> new ReadOnlyBooleanWrapper(cell.getValue().getAmount() >= 0));
+        recordTypeColumn.setCellFactory(c -> new IconTableCell<>());
 
         incomeSummary.textProperty().bind(this.model.incomeProperty().asString("%.2f"));
         outcomeSummary.textProperty().bind(this.model.outcomeProperty().asString("%.2f"));

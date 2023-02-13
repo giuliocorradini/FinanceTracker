@@ -9,9 +9,10 @@
         <center>
             <TableView fx:id="recordTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <columns>
-                    <TableColumn fx:id="selectColumn" minWidth="6.0" prefWidth="27.0" />
-                    <TableColumn fx:id="dateColumn" prefWidth="108.0" text="Date" />
+                    <TableColumn fx:id="selectColumn" minWidth="6.0" prefWidth="25.0" />
+                    <TableColumn fx:id="recordTypeColumn" minWidth="0.0" prefWidth="25.0" />
                     <TableColumn fx:id="amountColumn" minWidth="0.0" prefWidth="108.0" text="Amount" />
+                    <TableColumn fx:id="dateColumn" prefWidth="108.0" text="Date" />
                     <TableColumn fx:id="reasonColumn" prefWidth="356.0" text="Reason" />
                 </columns>
                 <ContextMenu fx:id="tableContextMenu" >
