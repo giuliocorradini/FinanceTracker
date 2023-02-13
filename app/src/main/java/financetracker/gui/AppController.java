@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -55,6 +57,11 @@ public class AppController implements ModelInjectable {
                 deleteMenuItem.setDisable(false);
 
             tableContextMenu.show(recordTable, evt.getScreenX(), evt.getScreenY());
+        });
+        tableContextMenu.setAutoHide(true);
+        recordTable.addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> {
+            if(evt.getButton() == MouseButton.PRIMARY && tableContextMenu.isShowing())
+                tableContextMenu.hide();
         });
 
         selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
