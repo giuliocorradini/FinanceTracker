@@ -1,8 +1,6 @@
 package financetracker.gui;
 
-import financetracker.Record;
 import financetracker.*;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,13 +21,13 @@ public class AppController implements ModelInjectable {
     private BalanceModel model;
 
     @FXML private ChoiceBox<String> periodSelector;
-    @FXML private TableView<Record> recordTable;
+    @FXML private TableView<RecordTableModel> recordTable;
     @FXML private ContextMenu tableContextMenu;
     @FXML private MenuItem deleteMenuItem;
-    @FXML private TableColumn<Record, LocalDate> dateColumn;
-    @FXML private TableColumn<Record, String> amountColumn;
-    @FXML private TableColumn<Record, String> reasonColumn;
-    @FXML private TableColumn<Record, Boolean> selectColumn;
+    @FXML private TableColumn<RecordTableModel, LocalDate> dateColumn;
+    @FXML private TableColumn<RecordTableModel, String> amountColumn;
+    @FXML private TableColumn<RecordTableModel, String> reasonColumn;
+    @FXML private TableColumn<RecordTableModel, Boolean> selectColumn;
     @FXML private Text incomeSummary;
     @FXML private Text outcomeSummary;
     @FXML private Text flowSummary;
@@ -64,10 +62,12 @@ public class AppController implements ModelInjectable {
                 tableContextMenu.hide();
         });
 
-        selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
-        selectColumn.setCellValueFactory(cell -> new ReadOnlyBooleanWrapper(false));
+        recordTable.setEditable(true);
 
-        dateColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getDate()));
+        selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
+        selectColumn.setCellValueFactory(cell -> cell.getValue().selectedProperty());
+
+        dateColumn.setCellValueFactory(cell -> cell.getValue().dateProperty());
 
         amountColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format("%.2f", cell.getValue().getAmount())));
 
@@ -148,12 +148,19 @@ public class AppController implements ModelInjectable {
 
     }
 
-    @FXML protected void handleRowDelete() {
-        Record r = recordTable.getSelectionModel().getSelectedItem();
+    @FXML protected void handleSingleRowDelete() {
+        RecordTableModel r = recordTable.getSelectionModel().getSelectedItem();
 
         if (r != null) {
             this.model.deleteRecord(r);
         }
+    }
+
+    @FXML protected void handleSelectedRowsDelete() {
+        this.model.deleteRecords(
+                recordTable.getItems().stream()
+                        .filter(c -> c.isSelected())
+        );
     }
 
 }

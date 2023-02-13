@@ -2,6 +2,7 @@ package financetracker.gui;
 
 import financetracker.Balance;
 import financetracker.Record;
+import financetracker.RecordTableModel;
 import financetracker.Summary;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -9,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 
 public class BalanceModel {
     private Balance dao;
@@ -16,8 +18,8 @@ public class BalanceModel {
         return dao;
     }
 
-    private ObservableList<Record> records;
-    public ObservableList<Record> getRecords() {
+    private ObservableList<RecordTableModel> records;
+    public ObservableList<RecordTableModel> getRecords() {
         return records;
     }
 
@@ -56,7 +58,9 @@ public class BalanceModel {
 
     public BalanceModel(Balance data) {
         this.dao = data;
-        this.records = FXCollections.observableArrayList(this.dao.getRecordList());
+        this.records = FXCollections.observableArrayList(
+                this.dao.stream().map(RecordTableModel::new).toList()
+        );
 
         Summary s = this.dao.getBalanceSummary();
 
@@ -64,7 +68,7 @@ public class BalanceModel {
         this.outcome = new SimpleDoubleProperty(s.outcome());
         this.flow = new SimpleDoubleProperty(s.flow());
 
-        this.records.addListener((ListChangeListener<Record>)c -> updateSummary());
+        this.records.addListener((ListChangeListener<RecordTableModel>)c -> updateSummary());
     }
 
     private void updateSummary() {
@@ -75,7 +79,9 @@ public class BalanceModel {
     }
 
     private void updateModelFromDAO() {
-        this.records.setAll(this.dao.getRecordList());  //TODO: profile memory consumption
+        this.records.setAll(
+                this.dao.stream().map(RecordTableModel::new).toList()
+        );  //TODO: profile memory consumption
     }
 
     public void addRecord(double amount, String reason, LocalDate date) {
@@ -91,8 +97,13 @@ public class BalanceModel {
         updateModelFromDAO();
     }
 
-    public void deleteRecord(Record r) {
-        this.dao.deleteRecord(r);
+    public void deleteRecord(RecordTableModel r) {
+        this.dao.deleteRecord(r.getRecord());
+        updateModelFromDAO();
+    }
+
+    public void deleteRecords(Stream<RecordTableModel> records) {
+        records.forEach(r -> this.dao.deleteRecord(r.getRecord()));
         updateModelFromDAO();
     }
 }

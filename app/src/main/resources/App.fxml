@@ -18,7 +18,7 @@
                 </columns>
                 <ContextMenu fx:id="tableContextMenu" >
                     <items>
-                        <MenuItem text="Delete" fx:id="deleteMenuItem" onAction="#handleRowDelete" />
+                        <MenuItem text="Delete" fx:id="deleteMenuItem" onAction="#handleSingleRowDelete" />
                     </items>
                 </ContextMenu>
             </TableView>
@@ -38,7 +38,7 @@
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">
                         <items>
-                            <MenuItem mnemonicParsing="false" text="Delete" />
+                            <MenuItem mnemonicParsing="false" text="Delete" onAction="#handleSelectedRowsDelete" />
                             <MenuItem mnemonicParsing="false" text="Edit selected" />
                         </items>
                     </Menu>
