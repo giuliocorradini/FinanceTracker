@@ -16,6 +16,11 @@
                     <TableColumn fx:id="amountColumn" minWidth="0.0" prefWidth="108.0" text="Amount" />
                     <TableColumn fx:id="reasonColumn" prefWidth="356.0" text="Reason" />
                 </columns>
+                <ContextMenu fx:id="tableContextMenu" >
+                    <items>
+                        <MenuItem text="Delete" fx:id="deleteMenuItem" onAction="#handleRowDelete" />
+                    </items>
+                </ContextMenu>
             </TableView>
         </center>
         <top>

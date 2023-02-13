@@ -22,6 +22,8 @@ public class AppController implements ModelInjectable {
 
     @FXML private ChoiceBox<String> periodSelector;
     @FXML private TableView<Record> recordTable;
+    @FXML private ContextMenu tableContextMenu;
+    @FXML private MenuItem deleteMenuItem;
     @FXML private TableColumn<Record, LocalDate> dateColumn;
     @FXML private TableColumn<Record, String> amountColumn;
     @FXML private TableColumn<Record, String> reasonColumn;
@@ -46,6 +48,14 @@ public class AppController implements ModelInjectable {
         addRecordDialog.setManaged(false);
 
         recordTable.setItems(this.model.getRecords());
+        recordTable.setOnContextMenuRequested(evt -> {
+            if(recordTable.getSelectionModel().isEmpty())
+                deleteMenuItem.setDisable(true);
+            else
+                deleteMenuItem.setDisable(false);
+
+            tableContextMenu.show(recordTable, evt.getScreenX(), evt.getScreenY());
+        });
 
         selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
         selectColumn.setCellValueFactory(cell -> new ReadOnlyBooleanWrapper(false));
@@ -129,6 +139,14 @@ public class AppController implements ModelInjectable {
             }
         }
 
+    }
+
+    @FXML protected void handleRowDelete() {
+        Record r = recordTable.getSelectionModel().getSelectedItem();
+
+        if (r != null) {
+            this.model.deleteRecord(r);
+        }
     }
 
 }

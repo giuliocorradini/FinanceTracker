@@ -90,4 +90,9 @@ public class BalanceModel {
         this.dao = b;
         updateModelFromDAO();
     }
+
+    public void deleteRecord(Record r) {
+        this.dao.deleteRecord(r);
+        updateModelFromDAO();
+    }
 }
