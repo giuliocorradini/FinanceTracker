@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.function.Supplier;
 import java.util.stream.*;
 
 
@@ -85,23 +86,23 @@ public class Balance implements Serializable {
     /*
      * @return the algebraic sum of all the currently displayed records
      */
-    public double getRecordFlow() {
-        return this.container.stream()
+    public static double getRecordFlow(Stream<Record> s) {
+        return s
                 .map(Record::getAmount)
                 .reduce(Double::sum)
                 .orElse(0.0);
     }
 
-    public double getRecordIncomeSum() {
-        return this.container.stream()
+    public static double getRecordIncomeSum(Stream<Record> s) {
+        return s
                 .map(Record::getAmount)
                 .filter(x -> x > 0)
                 .reduce(Double::sum)
                 .orElse(0.0);
     }
 
-    public double getRecordOutcomeSum() {
-        return this.container.stream()
+    public static double getRecordOutcomeSum(Stream<Record> s) {
+        return s
                 .map(Record::getAmount)
                 .filter(x -> x < 0)
                 .reduce(Double::sum)
@@ -128,13 +129,18 @@ public class Balance implements Serializable {
     }
 
     public Summary getBalanceSummary() {
-        if (getRecordCount() < 1)
-            return new Summary(0, 0,0);
-
         return new Summary(
-                getRecordIncomeSum(),
-                getRecordOutcomeSum(),
-                getRecordFlow()
+                getRecordIncomeSum(this.container.stream()),
+                getRecordOutcomeSum(this.container.stream()),
+                getRecordFlow(this.container.stream())
+        );
+    }
+
+    public static Summary getBalanceSummary(Supplier<Stream<Record>> s) {
+        return new Summary(
+                getRecordIncomeSum(s.get()),
+                getRecordOutcomeSum(s.get()),
+                getRecordFlow(s.get())
         );
     }
 }

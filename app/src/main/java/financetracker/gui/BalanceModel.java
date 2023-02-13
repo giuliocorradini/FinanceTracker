@@ -71,19 +71,28 @@ public class BalanceModel {
         this.records.addListener((ListChangeListener<RecordTableModel>)c -> updateSummary());
     }
 
+    private Stream<Record> getFilteredElementsFromDAO() {
+        Stream<Record> elements = this.dao.stream();
+
+        if (currentPeriodFilter != PeriodFilter.ALL) {
+            elements = BalanceFilter.filterByDateStream(elements, currentPeriodFilter.getStartDate(), currentPeriodFilter.getEndDate());
+        }
+
+        return elements;
+    }
+
     private void updateSummary() {
-        Summary s = this.dao.getBalanceSummary();
+        Summary s = Balance.getBalanceSummary(
+                () -> getFilteredElementsFromDAO()
+        );
+
         this.setIncome(s.income());
         this.setOutcome(s.outcome());
         this.setFlow(s.flow());
     }
 
     private void updateModelFromDAO() {
-        Stream<Record> elements = this.dao.stream();
-
-        if (currentPeriodFilter != PeriodFilter.ALL) {
-            elements = BalanceFilter.filterByDateStream(elements, currentPeriodFilter.getStartDate(), currentPeriodFilter.getEndDate());
-        }
+        Stream<Record> elements = getFilteredElementsFromDAO();
 
         this.records.setAll(
                 elements.map(RecordTableModel::new).toList()
