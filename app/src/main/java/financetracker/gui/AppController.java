@@ -2,6 +2,8 @@ package financetracker.gui;
 
 import financetracker.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,12 +17,13 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
 
 public class AppController implements ModelInjectable {
 
     private BalanceModel model;
 
-    @FXML private ChoiceBox<String> periodSelector;
+    @FXML private ChoiceBox<PeriodFilter> periodSelector;
     @FXML private TableView<RecordTableModel> recordTable;
     @FXML private ContextMenu tableContextMenu;
     @FXML private MenuItem deleteMenuItem;
@@ -76,6 +79,8 @@ public class AppController implements ModelInjectable {
         incomeSummary.textProperty().bind(this.model.incomeProperty().asString("%.2f"));
         outcomeSummary.textProperty().bind(this.model.outcomeProperty().asString("%.2f"));
         flowSummary.textProperty().bind(this.model.flowProperty().asString("%.2f"));
+
+        periodSelector.setItems(FXCollections.observableArrayList(PeriodFilter.values()));
     }
 
     @FXML protected void handleAddButtonClick() {
@@ -140,6 +145,8 @@ public class AppController implements ModelInjectable {
             try {
                 Balance b = Persistence.loadData(file.getAbsolutePath());
                 this.model.replaceDAO(b);
+                periodSelector.setValue(PeriodFilter.ALL);
+                this.model.resetFilter();
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't load the specified file.", ButtonType.OK);
                 a.showAndWait();
@@ -161,6 +168,12 @@ public class AppController implements ModelInjectable {
                 recordTable.getItems().stream()
                         .filter(c -> c.isSelected())
         );
+    }
+
+    @FXML protected void handleFilterSelection() {
+        PeriodFilter f = periodSelector.getSelectionModel().getSelectedItem();
+        if(f != null)
+            this.model.filterRecords(f);
     }
 
 }

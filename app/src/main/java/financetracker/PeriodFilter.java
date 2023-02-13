@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public enum PeriodFilter {
     ALL         ("All", -1),
+    THIS_DAY    ("This day", 1),
     THIS_WEEK   ("This week", 7),
     THIS_MONTH  ("This month", 30),
     THIS_YEAR   ("This year", 365);
@@ -17,5 +18,13 @@ public enum PeriodFilter {
 
     public String toString() {
         return this.descriptor;
+    }
+
+    public LocalDate getEndDate() {
+        return LocalDate.now();
+    }
+
+    public LocalDate getStartDate() {
+        return getEndDate().minusDays(period);
     }
 }

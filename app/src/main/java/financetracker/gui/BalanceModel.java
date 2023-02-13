@@ -1,9 +1,7 @@
 package financetracker.gui;
 
-import financetracker.Balance;
+import financetracker.*;
 import financetracker.Record;
-import financetracker.RecordTableModel;
-import financetracker.Summary;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,6 +15,8 @@ public class BalanceModel {
     public Balance getDao() {
         return dao;
     }
+
+    private PeriodFilter currentPeriodFilter = PeriodFilter.ALL;
 
     private ObservableList<RecordTableModel> records;
     public ObservableList<RecordTableModel> getRecords() {
@@ -79,8 +79,14 @@ public class BalanceModel {
     }
 
     private void updateModelFromDAO() {
+        Stream<Record> elements = this.dao.stream();
+
+        if (currentPeriodFilter != PeriodFilter.ALL) {
+            elements = BalanceFilter.filterByDateStream(elements, currentPeriodFilter.getStartDate(), currentPeriodFilter.getEndDate());
+        }
+
         this.records.setAll(
-                this.dao.stream().map(RecordTableModel::new).toList()
+                elements.map(RecordTableModel::new).toList()
         );  //TODO: profile memory consumption
     }
 
@@ -105,5 +111,15 @@ public class BalanceModel {
     public void deleteRecords(Stream<RecordTableModel> records) {
         records.forEach(r -> this.dao.deleteRecord(r.getRecord()));
         updateModelFromDAO();
+    }
+
+    public void filterRecords(PeriodFilter f) {
+        currentPeriodFilter = f;
+
+        updateModelFromDAO();
+    }
+
+    public void resetFilter() {
+        filterRecords(PeriodFilter.ALL);
     }
 }

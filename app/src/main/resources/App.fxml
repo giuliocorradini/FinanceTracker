@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import financetracker.*?>
-<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -54,16 +52,7 @@
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="outcomeSummary" />
                     <Label text="Flow:" />
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" />
-                    <ChoiceBox id="periodSelector" prefWidth="150.0">
-                        <items>
-                            <FXCollections fx:factory="observableArrayList">
-                                <PeriodFilter fx:value="ALL" />
-                                <PeriodFilter fx:value="THIS_WEEK" />
-                                <PeriodFilter fx:value="THIS_MONTH" />
-                                <PeriodFilter fx:value="THIS_YEAR" />
-                            </FXCollections>
-                        </items>
-                    </ChoiceBox>
+                    <ChoiceBox id="periodSelector" prefWidth="150.0" fx:id="periodSelector" onAction="#handleFilterSelection" />
                     <Button id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
                 </children>
             </HBox>
