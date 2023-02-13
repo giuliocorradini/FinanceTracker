@@ -4,6 +4,8 @@ import financetracker.ModelInjectable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.Pane;
 
 import java.time.LocalDate;
@@ -22,7 +24,9 @@ public class AddRecordDialogController implements ModelInjectable {
             if(nv) {
                 reason.clear();
                 amount.clear();
+                amount.getStyleClass().remove("error");
                 date.setValue(LocalDate.now());
+                date.getStyleClass().remove("error");
             }
         });
     }
@@ -49,6 +53,17 @@ public class AddRecordDialogController implements ModelInjectable {
             Dialog<String> dialog = new Dialog<>();
             dialog.setContentText(String.format("\"%s\" is an invalid amount of money.", amount.getText()));
             dialog.getDialogPane().getButtonTypes().add(new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE));
+
+            amount.getStyleClass().add("error");
+
+            dialog.showAndWait();
+        } catch (IllegalArgumentException e) {
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setContentText("Date field can't be null");
+            dialog.getDialogPane().getButtonTypes().add(new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE));
+
+            date.getStyleClass().add("error");
+
             dialog.showAndWait();
         }
     }

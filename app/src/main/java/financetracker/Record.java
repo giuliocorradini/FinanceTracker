@@ -15,6 +15,9 @@ public class Record implements Serializable {
 
     public Record(double amount, String reason, LocalDate date) {
 
+        if(date == null)
+            throw new IllegalArgumentException("date can't be null");
+
         object_counter++;
 
         this.UID = object_counter;

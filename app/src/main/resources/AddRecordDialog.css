@@ -1,3 +1,8 @@
 #addRecordDialog {
     -fx-background-color: white;
 }
+
+.error {
+    -fx-border-color: red;
+    -fx-border-width: 2;
+}
