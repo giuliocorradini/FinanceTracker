@@ -38,7 +38,6 @@
                     <Menu mnemonicParsing="false" text="Edit" onShowing="#handleEditMenuClick">
                         <items>
                             <MenuItem mnemonicParsing="false" text="Delete" onAction="#handleSelectedRowsDelete" fx:id="multirowDeleteMenu"/>
-                            <MenuItem mnemonicParsing="false" text="Edit selected" />
                         </items>
                     </Menu>
                 </menus>
