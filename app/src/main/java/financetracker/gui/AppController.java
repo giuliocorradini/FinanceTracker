@@ -1,11 +1,9 @@
 package financetracker.gui;
 
 import financetracker.*;
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -23,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Period;
 
 public class AppController implements ModelInjectable {
 
@@ -44,6 +41,7 @@ public class AppController implements ModelInjectable {
     @FXML private MenuItem csvExportMenuItem;
     @FXML private MenuItem openDocumentExportMenuItem;
     @FXML private TableColumn<RecordTableModel, Boolean> recordTypeColumn;
+    @FXML private MenuItem multirowDeleteMenu;
 
     public void setModel(BalanceModel model) {
         this.model = model;
@@ -224,6 +222,12 @@ public class AppController implements ModelInjectable {
             }
             this.model.filterRecords(f);
         }
+    }
+
+    @FXML protected void handleEditMenuClick() {
+        multirowDeleteMenu.setDisable(
+            !recordTable.getItems().stream().map(r -> selectColumn.getCellData(r)).reduce(Boolean::logicalOr).orElse(false)
+        );
     }
 
 }
