@@ -8,6 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -16,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -195,10 +198,28 @@ public class AppController implements ModelInjectable {
         );
     }
 
+    private void showCustomPeriodSelector() {
+        Parent root = ViewLoader.load(
+                "CustomPeriodFilterSelector.fxml",
+                cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
+        );
+
+        Scene scene = new Scene(root, 300, 200);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Select custom period");
+        stage.show();
+    }
+
     @FXML protected void handleFilterSelection() {
         PeriodFilter f = periodSelector.getSelectionModel().getSelectedItem();
-        if(f != null)
+        if(f != null) {
+            if(f == PeriodFilter.CUSTOM) {
+                System.out.println("custom filter");
+                showCustomPeriodSelector();
+            }
             this.model.filterRecords(f);
+        }
     }
 
 }

@@ -122,6 +122,9 @@ public class BalanceModel {
         updateModelFromDAO();
     }
 
+    /*
+     * Sets the current filter and updates the model, by requesting the DAO for filtered objects.
+     */
     public void filterRecords(PeriodFilter f) {
         currentPeriodFilter = f;
 
