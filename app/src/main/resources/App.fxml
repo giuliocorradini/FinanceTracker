@@ -33,6 +33,7 @@
                                 <MenuItem mnemonicParsing="false" text="CSV" onAction="#handleExport" fx:id="csvExportMenuItem" />
                                 <MenuItem mnemonicParsing="false" text="OpenDocument" onAction="#handleExport" fx:id="openDocumentExportMenuItem" />
                             </Menu>
+                            <MenuItem text="Print" onAction="#handlePrint" />
                         </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit" onShowing="#handleEditMenuClick">

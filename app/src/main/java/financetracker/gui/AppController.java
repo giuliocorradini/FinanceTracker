@@ -6,6 +6,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -230,4 +231,14 @@ public class AppController implements ModelInjectable {
         );
     }
 
+    public void handlePrint() {
+        PrinterJob p = PrinterJob.createPrinterJob();
+        if(p != null) {
+            boolean print = p.showPrintDialog(recordTable.getScene().getWindow());
+            if(print) {
+                boolean success = p.printPage(recordTable);
+                if(success) p.endJob();
+            }
+        }
+    }
 }
