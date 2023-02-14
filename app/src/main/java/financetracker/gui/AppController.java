@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -74,10 +75,28 @@ public class AppController implements ModelInjectable {
         selectColumn.setCellValueFactory(cell -> cell.getValue().selectedProperty());
 
         dateColumn.setCellValueFactory(cell -> cell.getValue().dateProperty());
+        dateColumn.setCellFactory(c -> new DatePickerTableCell<>());
+        dateColumn.setOnEditCommit(event -> {
+            event.getTableView().getSelectionModel().getSelectedItem().setDate(event.getNewValue());
+        });
 
+        amountColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         amountColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format("%.2f", cell.getValue().getAmount())));
+        amountColumn.setOnEditCommit(event -> { //invoked by TableCell.updateItem
+            var selectedItem = event.getTableView().getSelectionModel().getSelectedItem();
+            try {
+                Double newval = Double.parseDouble(event.getNewValue());
+                selectedItem.setAmount(newval);
+            } catch (NumberFormatException e) {
+                //TODO: red-bordered cell
+            }
+        });
 
-        reasonColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getReason()));
+        reasonColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        reasonColumn.setCellValueFactory(cell -> cell.getValue().reasonProperty());
+        reasonColumn.setOnEditCommit(e -> {
+            e.getTableView().getSelectionModel().getSelectedItem().setReason(e.getNewValue());
+        });
 
         recordTypeColumn.setCellValueFactory(cell -> new ReadOnlyBooleanWrapper(cell.getValue().getAmount() >= 0));
         recordTypeColumn.setCellFactory(c -> new IconTableCell<>());

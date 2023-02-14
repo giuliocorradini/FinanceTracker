@@ -79,8 +79,7 @@ public class Balance implements Serializable {
      * Returns a stream of clones
      */
     public Stream<Record> stream() {
-        return this.container.stream()
-                             .map(Record::clone);
+        return this.container.stream();
     }
 
     /*
@@ -120,6 +119,7 @@ public class Balance implements Serializable {
     /*
      * Return a list of Record clones
      */
+    @Deprecated
     public List<Record> getRecordList() {
         return stream().toList();
     }
@@ -142,5 +142,10 @@ public class Balance implements Serializable {
                 getRecordOutcomeSum(s.get()),
                 getRecordFlow(s.get())
         );
+    }
+
+    protected void rebuildIndex() {
+        Record.resetObjectCounter();
+        this.container.stream().forEach(Record::setNewUID);
     }
 }

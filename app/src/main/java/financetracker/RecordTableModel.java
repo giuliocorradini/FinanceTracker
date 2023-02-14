@@ -34,6 +34,7 @@ public class RecordTableModel {
 
     public void setReason(String reason) {
         this.reason.set(reason);
+        this.record.setReason(reason);
     }
 
 
@@ -49,6 +50,7 @@ public class RecordTableModel {
 
     public void setAmount(double amount) {
         this.amount.set(amount);
+        this.record.setAmount(amount);
     }
 
 
@@ -64,6 +66,7 @@ public class RecordTableModel {
 
     public void setDate(LocalDate date) {
         this.date.setValue(date);
+        this.record.setDate(date);
     }
 
 

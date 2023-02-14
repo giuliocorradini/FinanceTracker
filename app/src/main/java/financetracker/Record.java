@@ -7,12 +7,13 @@ import java.time.LocalDate;
 public class Record implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private final transient int UID;
+    private transient int UID;
+
     private double amount;
+
     private String reason;
     private LocalDate date;
     private static int object_counter = 0;
-
     public Record(double amount, String reason, LocalDate date) {
 
         if(date == null)
@@ -30,6 +31,7 @@ public class Record implements Serializable {
      * Create a clone of an existing Record without updating the global UID counter,
      * and without generating a new UID.
      */
+
     private Record(Record cloning) {
         this.UID = cloning.UID;
         this.amount = cloning.amount;
@@ -37,12 +39,22 @@ public class Record implements Serializable {
         this.date = cloning.date;
     }
 
+    @Deprecated
     public static Record income(double amount, String reason, LocalDate date) {
         return new Record(amount, reason, date);
     }
-    
+
+    @Deprecated
     public static Record outcome(double amount, String reason, LocalDate date) {
         return new Record(-amount, reason, date);
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public double getAmount() {
@@ -90,5 +102,13 @@ public class Record implements Serializable {
     @Override
     public String toString() {
         return String.format("Record - %s of %.2f in date %s", reason, amount, date.toString());
+    }
+
+    protected static void resetObjectCounter() {
+        object_counter = 0;
+    }
+
+    protected void setNewUID() {
+        this.UID = ++object_counter;
     }
 }

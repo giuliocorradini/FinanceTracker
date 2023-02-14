@@ -26,7 +26,9 @@ public class Persistence {
         ObjectInputStream in = new ObjectInputStream(stream);
 
         try {
-            return (Balance) in.readObject();
+            Balance b = (Balance) in.readObject();
+            b.rebuildIndex();
+            return b;
         } catch(ClassNotFoundException e) {
             System.err.println("The object in file is of an unknown class. Your data might be corrupted.");
         } finally {
