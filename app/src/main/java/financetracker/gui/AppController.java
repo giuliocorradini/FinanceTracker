@@ -136,11 +136,13 @@ public class AppController implements ModelInjectable {
         fChooser.setInitialFileName("Untitled" + extension);
         File file = fChooser.showSaveDialog(recordTable.getScene().getWindow());
 
-        try {
-            exporter.export(file.getAbsolutePath());
-        } catch (IOException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR, "Can't export to the specified location.", ButtonType.OK);
-            a.showAndWait();
+        if(file != null) {
+            try {
+                exporter.export(file.getAbsolutePath());
+            } catch (IOException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, "Can't export to the specified location.", ButtonType.OK);
+                a.showAndWait();
+            }
         }
     }
 
@@ -151,12 +153,14 @@ public class AppController implements ModelInjectable {
         fChooser.setInitialFileName("Untitled.dat");
         File file = fChooser.showSaveDialog(recordTable.getScene().getWindow());
 
-        Persistence p = new Persistence(this.model.getDao());
-        try {
-            p.saveData(file.getAbsolutePath());
-        } catch (IOException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR, "Can't save to the specified location.", ButtonType.OK);
-            a.showAndWait();
+        if(file != null) {
+            Persistence p = new Persistence(this.model.getDao());
+            try {
+                p.saveData(file.getAbsolutePath());
+            } catch (IOException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, "Can't save to the specified location.", ButtonType.OK);
+                a.showAndWait();
+            }
         }
     }
 
