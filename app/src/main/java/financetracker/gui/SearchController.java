@@ -4,12 +4,15 @@ import financetracker.BalanceSearchEngine;
 import financetracker.ControllerInjectable;
 import financetracker.ModelInjectable;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import financetracker.Record;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 
 public class SearchController implements ModelInjectable, ControllerInjectable {
@@ -19,6 +22,8 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
     private int currentIndex;
     @FXML private TextField searchField;
     @FXML private Pane root;
+    @FXML private CheckBox useRegex;
+    @FXML private Pane searchFieldGroup;
 
     @Override
     public void setModel(BalanceModel b) {
@@ -29,14 +34,28 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         BalanceSearchEngine engine = new BalanceSearchEngine(this.model.getDao());
         String query = searchField.getText();
 
-        this.results = engine.search(query).toList();
-        this.currentIndex = 0;
+        Pattern q;
+
+        try {
+            if(useRegex.isSelected())
+                q = Pattern.compile(query);
+            else
+                q = Pattern.compile(Pattern.quote(query));
+
+            searchFieldGroup.getChildren().stream().forEach(n -> n.getStyleClass().remove("error"));
+            this.results = engine.search(q).toList();
+            this.currentIndex = 0;
+        } catch (PatternSyntaxException e) {
+            searchFieldGroup.getChildren().stream().forEach(n -> n.getStyleClass().add("error"));
+        }
     }
 
     private void showResult() {
-        if(results.size() > 0) {
+        if(this.results != null && results.size() > 0) {
             Record r = results.get(currentIndex);
             this.ac.highlightRecord(r);
+        } else {
+            this.ac.highlightRecord(null);
         }
     }
 
@@ -66,11 +85,6 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         performSearch();
 
         showResult();
-    }
-
-    private void invalidateSearch() {
-        this.results = null;
-        this.currentIndex = 0;
     }
 
     public void setController(AppController c) {

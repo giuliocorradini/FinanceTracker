@@ -12,10 +12,8 @@ public class BalanceSearchEngine {
         this.base = b;
     }
 
-    public Stream<Record> search(String query) {
-        Pattern q = Pattern.compile(Pattern.quote(query));
-
+    public Stream<Record> search(Pattern query) {
         return base.stream()
-                .filter(r -> q.matcher(r.getReason()).find());
+                .filter(r -> query.matcher(r.getReason()).find());
     }
 }

@@ -65,6 +65,15 @@ CheckBox {
     -fx-border-width: 2px;
 }
 
+.text-field.error {
+    -fx-border-color: #ba1a1a;
+    -fx-border-width: 2px;
+}
+
+Label.error {
+    -fx-text-fill: #ba1a1a;
+}
+
 
 Label {
     -fx-font-size: 14px;

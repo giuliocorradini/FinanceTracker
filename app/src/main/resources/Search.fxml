@@ -13,12 +13,12 @@
 <VBox spacing="7" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
     <children>
 
-        <AnchorPane >
+        <AnchorPane fx:id="searchFieldGroup">
             <TextField fx:id="searchField" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Label text="Search" styleClass="for-text-field" />
         </AnchorPane>
 
-        <CheckBox text="Use regex"/>
+        <CheckBox text="Use regex" fx:id="useRegex" />
         <Pane VBox.vgrow="ALWAYS" />
         <HBox spacing="5">
             <children>
