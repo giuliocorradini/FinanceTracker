@@ -8,19 +8,21 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="financetracker.gui.SearchController"
-            prefHeight="200.0" prefWidth="500.0">
-<VBox prefWidth="500">
-    <Label text="Search" />
-    <TextField fx:id="searchField" />
-    <CheckBox text="Use regex"/>
-    <HBox spacing="5">
-        <children>
-            <Button text="Previous" onAction="#highlightPrevious" />
-            <Button text="Next" onAction="#highlightNext" />
-            <Pane HBox.hgrow="ALWAYS" />
-            <Button text="Search" onAction="#handleSearch" />
-        </children>
-    </HBox>
+            fx:controller="financetracker.gui.SearchController">
+<VBox spacing="5" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+    <children>
+        <Label text="Search" />
+        <TextField fx:id="searchField" />
+        <CheckBox text="Use regex"/>
+        <Pane VBox.vgrow="ALWAYS" />
+        <HBox spacing="5">
+            <children>
+                <Button text="Previous" onAction="#highlightPrevious" />
+                <Button text="Next" onAction="#highlightNext" />
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Search" onAction="#handleSearch" />
+            </children>
+        </HBox>
+    </children>
 </VBox>
 </AnchorPane>
