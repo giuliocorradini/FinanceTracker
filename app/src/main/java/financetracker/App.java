@@ -35,10 +35,12 @@ public class App extends Application {
                 cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
         );
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 800);
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("FinanceTracker");
+        primaryStage.setMinHeight(500);
+        primaryStage.setMinWidth(600);
         primaryStage.show();
 
         if(AutosaveTask.checkForTempPresence()) {

@@ -6,50 +6,41 @@
 
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.AddRecordDialogController" fx:id="addRecordDialog" stylesheets="AddRecordDialog.css">
-   <top>
-      <HBox prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dialog-title" text="Add record" />
-         </children>
-      </HBox>
-   </top>
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
-          <Button mnemonicParsing="false" onAction="#handleSubmit" text="Add" />
-        </buttons>
-      </ButtonBar>
-   </bottom>
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Reason" />
-            <TextField fx:id="reason" />
-            <Label text="Amount" />
-            <TextField fx:id="amount" />
-            <ButtonBar>
-               <buttons>
-                  <Button text="Income" onAction="#setIncome">
-                     <graphic>
-                        <ImageView preserveRatio="true" fitHeight="18">
-                           <Image url="income.png" />
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button text="Outcome" onAction="#setOutcome">
-                     <graphic>
-                        <ImageView preserveRatio="true" fitHeight="18">
-                           <Image url="outcome.png" />
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </buttons>
-            </ButtonBar>
-            <Label text="Date" />
-            <DatePicker fx:id="date" />
-         </children>
-      </VBox>
-   </center>
-</BorderPane>
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.AddRecordDialogController" fx:id="addRecordDialog" styleClass="dialog" stylesheets="AddRecordDialog.css">
+   <VBox spacing="5.0" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <children>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dialog-title" text="Add record" />
+         <Label text="Reason" />
+         <TextField fx:id="reason" />
+         <Label text="Amount" />
+         <TextField fx:id="amount" />
+         <ButtonBar>
+            <buttons>
+               <Button text="Income" onAction="#setIncome">
+                  <graphic>
+                     <ImageView preserveRatio="true" fitHeight="18">
+                        <Image url="income.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button text="Outcome" onAction="#setOutcome">
+                  <graphic>
+                     <ImageView preserveRatio="true" fitHeight="18">
+                        <Image url="outcome.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </buttons>
+         </ButtonBar>
+         <Label text="Date" />
+         <DatePicker fx:id="date" />
+         <Pane VBox.vgrow="ALWAYS" />
+         <ButtonBar>
+            <buttons>
+               <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+               <Button mnemonicParsing="false" onAction="#handleSubmit" text="Add" />
+            </buttons>
+         </ButtonBar>
+      </children>
+   </VBox>
+</AnchorPane>

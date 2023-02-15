@@ -1,3 +1,7 @@
 .highlight_cell {
     -fx-background-color: yellow;
 }
+
+.opaque_layer {
+    -fx-background-color: rgb(0, 0, 0, 0.5);
+}

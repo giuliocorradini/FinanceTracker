@@ -44,6 +44,7 @@ public class AppController implements ModelInjectable {
     @FXML private MenuItem openDocumentExportMenuItem;
     @FXML private TableColumn<RecordTableModel, Boolean> recordTypeColumn;
     @FXML private MenuItem multirowDeleteMenu;
+    @FXML private Pane opaqueLayer;
 
     public void setModel(BalanceModel model) {
         this.model = model;
@@ -109,6 +110,8 @@ public class AppController implements ModelInjectable {
         flowSummary.textProperty().bind(this.model.flowProperty().asString("%.2f"));
 
         periodSelector.setItems(FXCollections.observableArrayList(PeriodFilter.values()));
+
+        opaqueLayer.visibleProperty().bind(addRecordDialog.visibleProperty());
     }
 
     @FXML protected void handleAddButtonClick() {
