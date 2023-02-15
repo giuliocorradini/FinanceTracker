@@ -1,6 +1,7 @@
 package financetracker.gui;
 
 import financetracker.*;
+import financetracker.Record;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -94,7 +95,7 @@ public class AppController implements ModelInjectable {
             }
         });
 
-        reasonColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        reasonColumn.setCellFactory(cell -> new HighlightableTextFieldCell());
         reasonColumn.setCellValueFactory(cell -> cell.getValue().reasonProperty());
         reasonColumn.setOnEditCommit(e -> {
             e.getTableView().getSelectionModel().getSelectedItem().setReason(e.getNewValue());
@@ -240,5 +241,43 @@ public class AppController implements ModelInjectable {
                 if(success) p.endJob();
             }
         }
+    }
+
+    @FXML protected void showSearch() {
+        Parent root = ViewLoader.load(
+                "Search.fxml",
+                cls -> ControllerFactory.buildController(cls, model, this)
+        );
+
+        Scene scene = new Scene(root, 500, 200);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Search");
+        stage.show();
+
+        stage.setOnCloseRequest(r -> highlightRecord(null));
+    }
+
+    static RecordTableModel highlightedRecord;
+
+    /*
+     * Highlights a row correspondent to the passed Record. If null is passed, clears all highlighting.
+     */
+    public void highlightRecord(Record r) {
+        // Reset previous highlighted, if present
+        if(highlightedRecord != null)
+            highlightedRecord.setHighlighted(false);
+
+        // Get row from Record
+        if(r != null) {
+            highlightedRecord = recordTable.getItems().stream().filter(m -> m.getRecord() == r).findAny().orElse(null);
+
+            // Highlight new
+            if (highlightedRecord != null) {
+                highlightedRecord.setHighlighted(true);
+            }
+        }
+
+        recordTable.refresh();
     }
 }

@@ -1,5 +1,6 @@
 package financetracker;
 
+import financetracker.gui.AppController;
 import financetracker.gui.BalanceModel;
 
 public class ControllerFactory {
@@ -11,7 +12,7 @@ public class ControllerFactory {
      * @param cont_class: the class to be instantiated
      * @return: a T object of the specified class
      */
-    public static <T> T buildController(Class<T> cont_class, BalanceModel model) {
+    public static <T> T buildController(Class<T> cont_class, BalanceModel model, AppController app) {
         //T cont = new T();
         //Can't directly instantiate objects like this.
 
@@ -20,13 +21,21 @@ public class ControllerFactory {
         try {
             cont = cont_class.getDeclaredConstructor().newInstance();
 
-            if (cont instanceof ModelInjectable) {
+            if (cont instanceof ModelInjectable && model != null) {
                 ((ModelInjectable) cont).setModel(model);
+            }
+
+            if (cont instanceof ControllerInjectable && app != null) {
+                ((ControllerInjectable) cont).setController(app);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return cont;
+    }
+
+    public static <T> T buildController(Class<T> cont_class, BalanceModel model) {
+        return buildController(cont_class, model, null);
     }
 }

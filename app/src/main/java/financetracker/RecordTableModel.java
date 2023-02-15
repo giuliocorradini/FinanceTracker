@@ -69,6 +69,20 @@ public class RecordTableModel {
         this.record.setDate(date);
     }
 
+    private BooleanProperty highlighted;
+
+    public boolean isHighlighted() {
+        return highlighted.get();
+    }
+
+    public BooleanProperty highlightedProperty() {
+        return highlighted;
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted.set(highlighted);
+    }
+
 
     public RecordTableModel(Record r) {
         this.record = r;
@@ -77,6 +91,7 @@ public class RecordTableModel {
         this.amount = new SimpleDoubleProperty(r.getAmount());
         this.reason = new SimpleStringProperty(r.getReason());
         this.date = new SimpleObjectProperty<LocalDate>(r.getDate());
+        this.highlighted = new SimpleBooleanProperty(false);
     }
 
     public Record getRecord() {
