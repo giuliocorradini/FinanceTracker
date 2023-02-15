@@ -252,7 +252,7 @@ public class AppController implements ModelInjectable {
                 cls -> ControllerFactory.buildController(cls, model, this)
         );
 
-        Scene scene = new Scene(root, 500, 135);
+        Scene scene = new Scene(root, 550, 155);
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setScene(scene);

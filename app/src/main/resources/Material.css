@@ -1,0 +1,80 @@
+.root {
+    -fx-background-color: #fcfdf7;
+}
+
+/* Buttons */
+
+Button {
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+    -fx-text-fill: #101f10;
+    -fx-padding: 13px 24px;
+    -fx-background-color: #d5e8d0;
+    -fx-background-radius: 50px;
+}
+
+Button:hover {
+    -fx-effect: dropshadow(three-pass-box, #72796f, 4, 0, 0, 2);
+}
+
+
+
+/* Checkbox */
+
+CheckBox {
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+}
+
+.check-box .box {
+    -fx-background-color: transparent;
+    -fx-border-radius: 2px;
+    -fx-border-color: #1a1c19;
+    -fx-border-width: 2px;
+    -fx-max-width: 18px;
+    -fx-max-height: 18px;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #216c2e;
+    -fx-border-color: #216c2e;
+}
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+
+
+/* Textfield */
+
+.text-field {
+    -fx-font-size: 16px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #72796f;
+    -fx-padding: 10px 16px;
+    -fx-background-color: transparent;
+}
+
+.text-field:focused {
+    -fx-border-color: #216c2e;
+    -fx-border-width: 2px;
+}
+
+
+Label {
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+}
+
+Label.for-text-field {
+    -fx-translate-y: -8px;
+    -fx-translate-x: 16px;
+    -fx-padding: 0 4px;
+    -fx-background-color: #fcfdf7;
+}

@@ -8,11 +8,16 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="financetracker.gui.SearchController">
-<VBox spacing="5" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            fx:controller="financetracker.gui.SearchController"
+            stylesheets="Material.css">
+<VBox spacing="7" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
     <children>
-        <Label text="Search" />
-        <TextField fx:id="searchField" />
+
+        <AnchorPane >
+            <TextField fx:id="searchField" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label text="Search" styleClass="for-text-field" />
+        </AnchorPane>
+
         <CheckBox text="Use regex"/>
         <Pane VBox.vgrow="ALWAYS" />
         <HBox spacing="5">
