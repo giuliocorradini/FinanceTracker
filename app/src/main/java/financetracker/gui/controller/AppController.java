@@ -125,7 +125,7 @@ public class AppController implements ModelInjectable {
             e.getTableView().getSelectionModel().getSelectedItem().setReason(e.getNewValue());
         });
 
-        recordTypeColumn.setCellValueFactory(cell -> new ReadOnlyBooleanWrapper(cell.getValue().getAmount() >= 0));
+        recordTypeColumn.setCellValueFactory(cell -> cell.getValue().amountProperty().greaterThanOrEqualTo(0));
         recordTypeColumn.setCellFactory(c -> new IconTableCell<>());
 
         incomeSummary.textProperty().bind(this.model.incomeProperty().asString("%.2f"));
