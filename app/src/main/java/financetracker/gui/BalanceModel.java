@@ -8,6 +8,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class BalanceModel {
@@ -71,13 +72,14 @@ public class BalanceModel {
                 this.dao.stream().map(RecordTableModel::new).toList()
         );
 
-        Summary s = this.dao.getBalanceSummary();
+        this.periodFilter = new SimpleObjectProperty<>(PeriodFilter.ALL);
+
+        Summary s = this.getBalanceSummary();
 
         this.income = new SimpleDoubleProperty(s.income());
         this.outcome = new SimpleDoubleProperty(s.outcome());
         this.flow = new SimpleDoubleProperty(s.flow());
 
-        this.periodFilter = new SimpleObjectProperty<>(PeriodFilter.ALL);
 
         this.records.addListener((ListChangeListener<RecordTableModel>)c -> updateSummary());
     }
@@ -94,10 +96,44 @@ public class BalanceModel {
         return elements;
     }
 
-    private void updateSummary() {
-        Summary s = Balance.getBalanceSummary(
-                () -> getFilteredElementsFromDAO()
+    /*
+     * @return the algebraic sum of all the currently displayed records
+     */
+    private static double getRecordFlow(Stream<Record> s) {
+        return s
+                .map(Record::getAmount)
+                .reduce(Double::sum)
+                .orElse(0.0);
+    }
+
+    private static double getRecordIncomeSum(Stream<Record> s) {
+        return s
+                .map(Record::getAmount)
+                .filter(x -> x > 0)
+                .reduce(Double::sum)
+                .orElse(0.0);
+    }
+
+    private static double getRecordOutcomeSum(Stream<Record> s) {
+        return s
+                .map(Record::getAmount)
+                .filter(x -> x < 0)
+                .reduce(Double::sum)
+                .orElse(0.0);
+    }
+
+    public Summary getBalanceSummary() {
+        Supplier<Stream<Record>> s = () -> getFilteredElementsFromDAO();
+
+        return new Summary(
+                getRecordIncomeSum(s.get()),
+                getRecordOutcomeSum(s.get()),
+                getRecordFlow(s.get())
         );
+    }
+
+    private void updateSummary() {
+        Summary s = this.getBalanceSummary();
 
         this.setIncome(s.income());
         this.setOutcome(s.outcome());

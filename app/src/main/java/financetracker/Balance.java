@@ -82,32 +82,6 @@ public class Balance implements Serializable {
         return this.container.stream();
     }
 
-    /*
-     * @return the algebraic sum of all the currently displayed records
-     */
-    public static double getRecordFlow(Stream<Record> s) {
-        return s
-                .map(Record::getAmount)
-                .reduce(Double::sum)
-                .orElse(0.0);
-    }
-
-    public static double getRecordIncomeSum(Stream<Record> s) {
-        return s
-                .map(Record::getAmount)
-                .filter(x -> x > 0)
-                .reduce(Double::sum)
-                .orElse(0.0);
-    }
-
-    public static double getRecordOutcomeSum(Stream<Record> s) {
-        return s
-                .map(Record::getAmount)
-                .filter(x -> x < 0)
-                .reduce(Double::sum)
-                .orElse(0.0);
-    }
-
     public int getRecordCount() {
         return this.container.size();
     }
@@ -126,22 +100,6 @@ public class Balance implements Serializable {
 
     public List<Record> getUnderlyingRecordList() {
         return this.container;
-    }
-
-    public Summary getBalanceSummary() {
-        return new Summary(
-                getRecordIncomeSum(this.container.stream()),
-                getRecordOutcomeSum(this.container.stream()),
-                getRecordFlow(this.container.stream())
-        );
-    }
-
-    public static Summary getBalanceSummary(Supplier<Stream<Record>> s) {
-        return new Summary(
-                getRecordIncomeSum(s.get()),
-                getRecordOutcomeSum(s.get()),
-                getRecordFlow(s.get())
-        );
     }
 
     protected void rebuildIndex() {
