@@ -265,17 +265,6 @@ public class AppController implements ModelInjectable {
         );
     }
 
-    public void handlePrint() {
-        PrinterJob p = PrinterJob.createPrinterJob();
-        if(p != null) {
-            boolean print = p.showPrintDialog(recordTable.getScene().getWindow());
-            if(print) {
-                boolean success = p.printPage(recordTable);
-                if(success) p.endJob();
-            }
-        }
-    }
-
     @FXML protected void showSearch() {
         Parent root = ViewLoader.load(
                 "Search.fxml",
