@@ -186,6 +186,11 @@ public class BalanceModel {
     }
 
     public void resetFilter() {
-        filterRecords(PeriodFilter.ALL);
+        setPeriodFilter(PeriodFilter.ALL);
+    }
+
+    public void resetAll() {
+        this.replaceDAO(new Balance());
+        this.resetFilter();
     }
 }

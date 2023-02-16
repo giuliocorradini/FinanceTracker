@@ -3,37 +3,35 @@ package financetracker;
 import java.io.*;
 
 public class Persistence {
-    private Balance balance;
-
     private File lastFile;
 
-    public Persistence(Balance b) {
-        this.balance = b;
+    public Persistence() {
+
     }
 
     public File getLastFile() {
         return lastFile;
     }
 
-    public void saveData(String path) throws IOException {
+    public void saveData(Balance balance, String path) throws IOException {
         FileOutputStream stream = new FileOutputStream(path);
         ObjectOutputStream out = new ObjectOutputStream(stream);
 
         try {
-            if(this.balance != null)
-                out.writeObject(this.balance);
+            if(balance != null)
+                out.writeObject(balance);
         } finally {
             stream.close();
         }
     }
 
-    public void saveData(File file) throws IOException {
+    public void saveData(Balance balance, File file) throws IOException {
         FileOutputStream stream = new FileOutputStream(file);
         ObjectOutputStream out = new ObjectOutputStream(stream);
 
         try {
-            if(this.balance != null)
-                out.writeObject(this.balance);
+            if(balance != null)
+                out.writeObject(balance);
 
             this.lastFile = file;
         } finally {

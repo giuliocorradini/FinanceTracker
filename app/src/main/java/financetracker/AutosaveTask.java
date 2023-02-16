@@ -19,9 +19,9 @@ public class AutosaveTask extends TimerTask {
     @Override
     public void run() {
         synchronized (this.model) {
-            Persistence pmech = new Persistence(this.model.getDao());
+            Persistence pmech = new Persistence();  //TODO: encapsulate in class
             try {
-                pmech.saveData("tmp.dat");
+                pmech.saveData(this.model.getDao(), "tmp.dat");
             } catch (IOException e) {
                 System.err.println("Can't save temporary file");
             }

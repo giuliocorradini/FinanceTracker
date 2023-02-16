@@ -29,6 +29,7 @@
                         <items>
                             <MenuItem mnemonicParsing="false" text="Save" onAction="#handleSave" />
                             <MenuItem mnemonicParsing="false" text="Load" onAction="#handleLoad" />
+                            <MenuItem mnemonicParsing="false" text="Close" onAction="#handleClose" />
                             <Menu mnemonicParsing="false" text="Export...">
                                 <MenuItem mnemonicParsing="false" text="CSV" onAction="#handleExport" fx:id="csvExportMenuItem" />
                                 <MenuItem mnemonicParsing="false" text="OpenDocument" onAction="#handleExport" fx:id="openDocumentExportMenuItem" />

@@ -52,6 +52,7 @@ public class AppController implements ModelInjectable {
     private NumberFormat fmt;
 
     public AppController() {
+        p = new Persistence();
         fmt = NumberFormat.getInstance(Locale.getDefault());
     }
 
@@ -125,10 +126,6 @@ public class AppController implements ModelInjectable {
         );
 
         opaqueLayer.visibleProperty().bind(addRecordDialog.visibleProperty());
-
-        // This must be done here, instead of the constructor because the object model must be populated
-        // and this is done by ControllerFactory after calling .newInstance on this class.
-        p = new Persistence(this.model.getDao());
     }
 
     @FXML protected void handleAddButtonClick() {
@@ -175,7 +172,7 @@ public class AppController implements ModelInjectable {
 
         if(file != null) {
             try {
-                p.saveData(file);
+                p.saveData(this.model.getDao(), file);
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't save to the specified location.", ButtonType.OK);
                 a.showAndWait();
@@ -197,7 +194,6 @@ public class AppController implements ModelInjectable {
                 Balance b = p.loadData(file);
                 this.model.replaceDAO(b);
                 periodSelector.setValue(PeriodFilter.ALL);
-                this.model.resetFilter();
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't load the specified file.", ButtonType.OK);
                 a.showAndWait();
@@ -299,5 +295,9 @@ public class AppController implements ModelInjectable {
         }
 
         recordTable.refresh();
+    }
+
+    public void handleClose() {
+        this.model.resetAll();
     }
 }
