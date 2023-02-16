@@ -10,13 +10,24 @@ import org.odftoolkit.odfdom.doc.*;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.odftoolkit.odfdom.doc.table.OdfTableCell;
 
+/**
+ * This class exports a Balance as an OpenDocument spreadsheet.
+ */
 public class OpenDocument extends Export {
     private Balance balance;
 
+    /**
+     * Constructor.
+     * @param balance the balance to export.
+     */
     public OpenDocument(Balance balance) {
         this.balance = balance;
     }
 
+    /**
+     * Overrides generate to implement export to an OpenDocument spreadsheet.
+     * @param w an OutputStream to write bytes.
+     */
     @Override
     protected void generate(OutputStream w) {
 

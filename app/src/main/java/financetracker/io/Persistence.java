@@ -4,32 +4,24 @@ import financetracker.Balance;
 
 import java.io.*;
 
+/**
+ * This class provides the facilities to save a Balance to file, and load a saved
+ * Balance from file. It doesn't provide methods for exporting to CSV or other formats
+ * as that is handled by {@link financetracker.io.export.Export Export} implementations.
+ */
 public class Persistence {
     private File lastFile;
-
-    public Persistence() {
-
-    }
 
     public File getLastFile() {
         return lastFile;
     }
 
-    public void saveData(Balance balance, String path) throws IOException {
-        FileOutputStream stream = new FileOutputStream(path);
-        ObjectOutputStream out = new ObjectOutputStream(stream);
-
-        try {
-            if(balance != null) {
-                synchronized (balance) {
-                    out.writeObject(balance);
-                }
-            }
-        } finally {
-            stream.close();
-        }
-    }
-
+    /**
+     * Save a balance to the given file, and saves the last used filename.
+     * @param balance The balance to save
+     * @param file A file object representing the file to save onto.
+     * @throws IOException if the file can't be open, or writing operations can't be performed.
+     */
     public void saveData(Balance balance, File file) throws IOException {
         FileOutputStream stream = new FileOutputStream(file);
         ObjectOutputStream out = new ObjectOutputStream(stream);
@@ -47,6 +39,12 @@ public class Persistence {
         }
     }
 
+    /**
+     * Loads data from a file, and returns a Balance if load was successful.
+     * @param file
+     * @return a Balance object, null if the file can't be parsed
+     * @throws IOException if file can't be read.
+     */
     public Balance loadData(File file) throws IOException {
         FileInputStream stream = new FileInputStream(file);
         ObjectInputStream in = new ObjectInputStream(stream);
