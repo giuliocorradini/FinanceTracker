@@ -5,20 +5,6 @@ import java.util.LinkedList;
 import java.util.stream.Stream;
 
 public class BalanceFilter {
-    @Deprecated
-    public static Record[] getRecordsBetweenDates(Balance b, ChronoLocalDate start, ChronoLocalDate end) {
-        LinkedList<Record> filtered = new LinkedList<Record>();
-
-        for(Record r: b.getRecords()) {
-
-            if(r.getDate().compareTo(start) >= 0 && r.getDate().compareTo(end) <= 0) {
-                filtered.add(r.clone());
-            }
-        }
-
-        return filtered.toArray(new Record[filtered.size()]);
-    }
-
     public static boolean isRecordBetween(Record r, ChronoLocalDate start, ChronoLocalDate end) {
         return r.getDate().compareTo(start) >= 0 && r.getDate().compareTo(end) <= 0;
     }

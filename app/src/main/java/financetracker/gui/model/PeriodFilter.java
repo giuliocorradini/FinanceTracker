@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public enum PeriodFilter {
     ALL         ("All", -1),
-    THIS_DAY    ("This day", 1),
-    THIS_WEEK   ("This week", 7),
-    THIS_MONTH  ("This month", 30),
-    THIS_YEAR   ("This year", 365),
+    THIS_DAY    ("This day", 0),
+    THIS_WEEK   ("This week", 6),
+    THIS_MONTH  ("This month", 29),
+    THIS_YEAR   ("This year", 364),
     CUSTOM      ("Custom", 0);
 
     private final String descriptor;
