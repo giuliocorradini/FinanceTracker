@@ -27,8 +27,8 @@ public class CustomPeriodFilterSelectorController implements ModelInjectable {
     }
 
     private void cleanUp() {
-        startDatePicker.setValue(LocalDate.now());
-        endDatePicker.setValue(LocalDate.now());
+        startDatePicker.setValue(PeriodFilter.CUSTOM.getStartDate());
+        endDatePicker.setValue(PeriodFilter.CUSTOM.getEndDate());
     }
 
     private void closeThisWindow() {

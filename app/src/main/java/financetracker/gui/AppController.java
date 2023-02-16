@@ -48,6 +48,7 @@ public class AppController implements ModelInjectable {
     @FXML private TableColumn<RecordTableModel, Boolean> recordTypeColumn;
     @FXML private MenuItem multirowDeleteMenu;
     @FXML private Pane opaqueLayer;
+    @FXML private Button periodEditButton;
     private Persistence p;
     private NumberFormat fmt;
 
@@ -126,6 +127,9 @@ public class AppController implements ModelInjectable {
         );
 
         opaqueLayer.visibleProperty().bind(addRecordDialog.visibleProperty());
+
+        periodEditButton.managedProperty().bind(periodEditButton.visibleProperty());
+        periodEditButton.setVisible(false);
     }
 
     @FXML protected void handleAddButtonClick() {
@@ -217,7 +221,7 @@ public class AppController implements ModelInjectable {
         );
     }
 
-    private void showCustomPeriodSelector() {
+    @FXML protected void showCustomPeriodSelector() {
         Parent root = ViewLoader.load(
                 "CustomPeriodFilterSelector.fxml",
                 cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
@@ -234,7 +238,9 @@ public class AppController implements ModelInjectable {
         PeriodFilter f = periodSelector.getValue();
         if(f != null) {
             if(f == PeriodFilter.CUSTOM) {
-                showCustomPeriodSelector();
+                periodEditButton.setVisible(true);
+            } else {
+                periodEditButton.setVisible(false);
             }
 
             this.model.filterRecords(f);

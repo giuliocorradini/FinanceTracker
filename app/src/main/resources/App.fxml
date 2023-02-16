@@ -55,6 +55,8 @@
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="outcomeSummary" />
                     <Label text="Flow:" />
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" />
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Button onAction="#showCustomPeriodSelector" text="Edit period" fx:id="periodEditButton"/>
                     <ChoiceBox id="periodSelector" prefWidth="150.0" fx:id="periodSelector" onAction="#handleFilterSelection" />
                     <Button id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
                 </children>
