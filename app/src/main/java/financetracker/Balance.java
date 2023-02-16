@@ -64,7 +64,7 @@ public class Balance implements Serializable {
         return this.container.get(index);
     }
 
-    protected synchronized void rebuildIndex() {
+    public synchronized void rebuildIndex() {
         Record.resetObjectCounter();
         this.container.stream().forEach(Record::setNewUID);
     }

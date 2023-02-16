@@ -1,9 +1,11 @@
-package financetracker;
+package financetracker.io.export;
 
 import java.io.OutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import financetracker.Balance;
+import financetracker.Record;
 import org.odftoolkit.odfdom.doc.*;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.odftoolkit.odfdom.doc.table.OdfTableCell;

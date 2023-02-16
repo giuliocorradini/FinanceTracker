@@ -1,6 +1,6 @@
-package financetracker.gui;
+package financetracker.gui.element;
 
-import financetracker.RecordTableModel;
+import financetracker.gui.model.RecordTableModel;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 

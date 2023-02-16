@@ -1,10 +1,8 @@
-package financetracker.gui;
+package financetracker.gui.controller;
 
 import financetracker.BalanceSearchEngine;
-import financetracker.ControllerInjectable;
-import financetracker.ModelInjectable;
+import financetracker.gui.model.BalanceModel;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import financetracker.Record;

@@ -1,4 +1,6 @@
-package financetracker;
+package financetracker.io.export;
+
+import financetracker.Balance;
 
 public class CSV extends ColumnarExport {
 

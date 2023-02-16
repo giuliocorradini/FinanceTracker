@@ -1,4 +1,4 @@
-package financetracker.gui;
+package financetracker.gui.element;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -1,5 +1,6 @@
-package financetracker;
+package financetracker.gui.model;
 
+import financetracker.Record;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;

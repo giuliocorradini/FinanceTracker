@@ -1,10 +1,16 @@
-package financetracker;
+package financetracker.io.export;
+
+import financetracker.Balance;
+import financetracker.Record;
+import financetracker.io.export.Export;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
 import java.util.stream.Stream;
+
+//TODO: integrate in App
 
 public class ColumnarExport extends Export {
     private Balance balance;

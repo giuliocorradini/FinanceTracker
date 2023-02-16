@@ -1,6 +1,6 @@
-package financetracker.gui;
+package financetracker.gui.controller;
 
-import financetracker.ModelInjectable;
+import financetracker.gui.model.BalanceModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

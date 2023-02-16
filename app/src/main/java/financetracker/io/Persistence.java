@@ -1,4 +1,6 @@
-package financetracker;
+package financetracker.io;
+
+import financetracker.Balance;
 
 import java.io.*;
 

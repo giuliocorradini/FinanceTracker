@@ -1,7 +1,9 @@
-package financetracker;
+package financetracker.gui;
 
-import financetracker.gui.AppController;
-import financetracker.gui.BalanceModel;
+import financetracker.gui.controller.AppController;
+import financetracker.gui.controller.ControllerInjectable;
+import financetracker.gui.controller.ModelInjectable;
+import financetracker.gui.model.BalanceModel;
 
 public class ControllerFactory {
 

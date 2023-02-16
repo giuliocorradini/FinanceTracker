@@ -1,4 +1,4 @@
-package financetracker.gui;
+package financetracker.gui.model;
 
 import financetracker.*;
 import financetracker.Record;

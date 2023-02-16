@@ -1,6 +1,7 @@
 package financetracker;
 
-import financetracker.gui.BalanceModel;
+import financetracker.gui.model.BalanceModel;
+import financetracker.io.Persistence;
 
 import java.io.File;
 import java.io.IOException;

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Button?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.CustomPeriodFilterSelectorController" fx:id="rootPane">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.controller.CustomPeriodFilterSelectorController" fx:id="rootPane">
     <top>
         <Text text="Select a period" />
     </top>

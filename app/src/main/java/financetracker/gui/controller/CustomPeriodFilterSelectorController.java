@@ -1,7 +1,7 @@
-package financetracker.gui;
+package financetracker.gui.controller;
 
-import financetracker.ModelInjectable;
-import financetracker.PeriodFilter;
+import financetracker.gui.model.PeriodFilter;
+import financetracker.gui.model.BalanceModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
