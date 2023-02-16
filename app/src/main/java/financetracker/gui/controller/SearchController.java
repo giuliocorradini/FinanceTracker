@@ -4,6 +4,7 @@ import financetracker.BalanceSearchEngine;
 import financetracker.gui.model.BalanceModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import financetracker.Record;
 import javafx.scene.layout.Pane;
@@ -22,6 +23,7 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
     @FXML private Pane root;
     @FXML private CheckBox useRegex;
     @FXML private Pane searchFieldGroup;
+    @FXML private Label matchCounter;
 
     @Override
     public void setModel(BalanceModel b) {
@@ -43,6 +45,11 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
             searchFieldGroup.getChildren().stream().forEach(n -> n.getStyleClass().remove("error"));
             this.results = engine.search(q).toList();
             this.currentIndex = 0;
+            matchCounter.setText(
+                    this.results.size() > 0 ? String.format("%d matches", this.results.size())
+                                            : "No matches"
+            );
+            matchCounter.setVisible(true);
         } catch (PatternSyntaxException e) {
             searchFieldGroup.getChildren().stream().forEach(n -> n.getStyleClass().add("error"));
         }

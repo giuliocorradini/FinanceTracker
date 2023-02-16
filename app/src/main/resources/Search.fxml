@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="financetracker.gui.controller.SearchController"
@@ -18,7 +19,11 @@
             <Label text="Search" styleClass="for-text-field" />
         </AnchorPane>
 
-        <CheckBox text="Use regex" fx:id="useRegex" />
+        <HBox>
+            <CheckBox text="Use regex" fx:id="useRegex" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label fx:id="matchCounter" visible="false" />
+        </HBox>
         <Pane VBox.vgrow="ALWAYS" />
         <HBox spacing="5">
             <children>
