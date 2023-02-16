@@ -165,8 +165,10 @@ public class BalanceModel {
      * To be synchronized with AutosaveTask
      */
     public synchronized void replaceDAO(Balance b) {
-        this.dao = b;
-        updateModelFromDAO();
+        if(b != null) {
+            this.dao = b;
+            updateModelFromDAO();
+        }
     }
 
     public void deleteRecord(RecordTableModel r) {

@@ -45,23 +45,6 @@ public class Persistence {
         }
     }
 
-    public static Balance loadData(String path) throws IOException {
-        FileInputStream stream = new FileInputStream(path);
-        ObjectInputStream in = new ObjectInputStream(stream);
-
-        try {
-            Balance b = (Balance) in.readObject();
-            b.rebuildIndex();
-            return b;
-        } catch(ClassNotFoundException e) {
-            System.err.println("The object in file is of an unknown class. Your data might be corrupted.");
-        } finally {
-            stream.close();
-        }
-
-        return null;
-    }
-
     public Balance loadData(File file) throws IOException {
         FileInputStream stream = new FileInputStream(file);
         ObjectInputStream in = new ObjectInputStream(stream);

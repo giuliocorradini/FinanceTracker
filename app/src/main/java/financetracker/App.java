@@ -9,23 +9,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 
 public class App extends Application {
     private BalanceModel model;
     private Timer t;
+    private AutosaveTask autosaveFacility;
 
     public App() {
         super();
-    }
-
-    @Override
-    public void init() {
-        Balance b = new Balance();
-        model = new BalanceModel(b);
-
+        model = new BalanceModel(new Balance());
         t = new Timer();
+        autosaveFacility = new AutosaveTask(this.model);
     }
 
     @Override
@@ -43,25 +40,28 @@ public class App extends Application {
         primaryStage.setMinWidth(600);
         primaryStage.show();
 
-        if(AutosaveTask.checkForTempPresence()) {
+
+        if (autosaveFacility.checkForTempPresence()) {
             Alert a = new Alert(Alert.AlertType.INFORMATION, "A temporary save file has been found, do you want to restore it?", ButtonType.YES, ButtonType.NO);
             a.showAndWait().ifPresent(resp -> {
-                if(resp == ButtonType.YES)
+                if (resp == ButtonType.YES)
                     try {
-                        this.model.replaceDAO(AutosaveTask.loadFromTemp());
+                        this.model.replaceDAO(autosaveFacility.loadFromTemp());
                     } catch (IOException e) {
                         new Alert(Alert.AlertType.ERROR, "Can't restore from temporary file.", ButtonType.OK).showAndWait();
                     }
             });
         }
 
-        t.scheduleAtFixedRate(new AutosaveTask(this.model), 2*60*1000, 2*60*1000);
+        t.scheduleAtFixedRate(autosaveFacility, 2*60*1000, 2*60*1000);
+
     }
 
     @Override
     public void stop() {
         t.cancel();
-        AutosaveTask.cleanupTemp();
+        if(autosaveFacility != null)
+            autosaveFacility.cleanup();
     }
 
     public static void main(String[] args) {
