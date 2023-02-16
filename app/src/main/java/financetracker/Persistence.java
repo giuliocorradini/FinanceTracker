@@ -18,8 +18,11 @@ public class Persistence {
         ObjectOutputStream out = new ObjectOutputStream(stream);
 
         try {
-            if(balance != null)
-                out.writeObject(balance);
+            if(balance != null) {
+                synchronized (balance) {
+                    out.writeObject(balance);
+                }
+            }
         } finally {
             stream.close();
         }
@@ -30,8 +33,11 @@ public class Persistence {
         ObjectOutputStream out = new ObjectOutputStream(stream);
 
         try {
-            if(balance != null)
-                out.writeObject(balance);
+            if(balance != null) {
+                synchronized (balance) {
+                    out.writeObject(balance);
+                }
+            }
 
             this.lastFile = file;
         } finally {

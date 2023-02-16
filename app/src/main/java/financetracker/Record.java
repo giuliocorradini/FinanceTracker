@@ -39,37 +39,27 @@ public class Record implements Serializable {
         this.date = cloning.date;
     }
 
-    @Deprecated
-    public static Record income(double amount, String reason, LocalDate date) {
-        return new Record(amount, reason, date);
-    }
-
-    @Deprecated
-    public static Record outcome(double amount, String reason, LocalDate date) {
-        return new Record(-amount, reason, date);
-    }
-
-    public void setAmount(double amount) {
+    public synchronized void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public void setDate(LocalDate date) {
+    public synchronized void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public double getAmount() {
+    public synchronized double getAmount() {
         return this.amount;
     }
 
-    public String getReason() {
+    public synchronized String getReason() {
         return this.reason;
     }
 
-    public void setReason(String new_reason) {
+    public synchronized void setReason(String new_reason) {
         this.reason = new_reason;
     }
 
-    public LocalDate getDate() {
+    public synchronized LocalDate getDate() {
         return this.date;
     }
 
@@ -81,7 +71,7 @@ public class Record implements Serializable {
         return 3;
     }
 
-    public int getUID() {
+    public synchronized int getUID() {
         return UID;
     }
 
@@ -89,26 +79,26 @@ public class Record implements Serializable {
      * Clone attributes (amount, reason, income) from a clone or another Record object,
      * without copying the UID.
      */
-    public void cloneAttributesFrom(Record r) {
+    public synchronized void cloneAttributesFrom(Record r) {
         this.amount = r.amount;
         this.reason = r.reason;
         this.date = r.date;
     }
 
-    public Record clone() {
+    public synchronized Record clone() {
         return new Record(this);
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return String.format("Record - %s of %.2f in date %s", reason, amount, date.toString());
     }
 
-    protected static void resetObjectCounter() {
+    protected synchronized static void resetObjectCounter() {
         object_counter = 0;
     }
 
-    protected void setNewUID() {
+    protected synchronized void setNewUID() {
         this.UID = ++object_counter;
     }
 }

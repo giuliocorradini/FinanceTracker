@@ -161,7 +161,10 @@ public class BalanceModel {
         updateModelFromDAO();
     }
 
-    public void replaceDAO(Balance b) {
+    /*
+     * To be synchronized with AutosaveTask
+     */
+    public synchronized void replaceDAO(Balance b) {
         this.dao = b;
         updateModelFromDAO();
     }
