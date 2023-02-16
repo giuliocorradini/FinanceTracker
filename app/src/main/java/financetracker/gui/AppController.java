@@ -22,7 +22,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class AppController implements ModelInjectable {
 
@@ -46,6 +49,11 @@ public class AppController implements ModelInjectable {
     @FXML private MenuItem multirowDeleteMenu;
     @FXML private Pane opaqueLayer;
     private Persistence p;
+    private NumberFormat fmt;
+
+    public AppController() {
+        fmt = NumberFormat.getInstance(Locale.getDefault());
+    }
 
     public void setModel(BalanceModel model) {
         this.model = model;
@@ -88,11 +96,11 @@ public class AppController implements ModelInjectable {
         amountColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         amountColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format("%.2f", cell.getValue().getAmount())));
         amountColumn.setOnEditCommit(event -> { //invoked by TableCell.updateItem
-            var selectedItem = event.getTableView().getSelectionModel().getSelectedItem();
+            RecordTableModel selectedItem = event.getTableView().getSelectionModel().getSelectedItem();
             try {
-                Double newval = Double.parseDouble(event.getNewValue());
+                Double newval = fmt.parse(event.getNewValue()).doubleValue();
                 selectedItem.setAmount(newval);
-            } catch (NumberFormatException e) {
+            } catch (ParseException e) {
                 //TODO: red-bordered cell
             }
         });

@@ -4,11 +4,12 @@ import financetracker.ModelInjectable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.Pane;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.Locale;
 
 
 public class AddRecordDialogController implements ModelInjectable {
@@ -41,15 +42,17 @@ public class AddRecordDialogController implements ModelInjectable {
     }
 
     @FXML protected void handleSubmit(ActionEvent evt) {
+        NumberFormat fmt = NumberFormat.getInstance(Locale.getDefault());
+
         try {
             this.model.addRecord(
-                    Double.parseDouble(amount.getText()),
+                    fmt.parse(amount.getText()).doubleValue(),
                     reason.getText(),
                     date.getValue()
             );
 
             closeThisDialog();
-        } catch (NumberFormatException e) {
+        } catch (ParseException e) {
             Dialog<String> dialog = new Dialog<>();
             dialog.setContentText(String.format("\"%s\" is an invalid amount of money.", amount.getText()));
             dialog.getDialogPane().getButtonTypes().add(new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE));
