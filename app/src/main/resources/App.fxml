@@ -7,13 +7,13 @@
 <AnchorPane minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.controller.AppController" stylesheets="stylesheets/App.css">
     <BorderPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
         <center>
-            <TableView fx:id="recordTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="recordTable" BorderPane.alignment="CENTER" >
                 <columns>
-                    <TableColumn fx:id="selectColumn" minWidth="6.0" prefWidth="25.0" />
-                    <TableColumn fx:id="recordTypeColumn" minWidth="0.0" prefWidth="25.0" />
-                    <TableColumn fx:id="amountColumn" minWidth="0.0" prefWidth="108.0" text="Amount" />
-                    <TableColumn fx:id="dateColumn" prefWidth="108.0" text="Date" />
-                    <TableColumn fx:id="reasonColumn" prefWidth="356.0" text="Reason" />
+                    <TableColumn fx:id="selectColumn" prefWidth="25.0" resizable="false" />
+                    <TableColumn fx:id="recordTypeColumn" prefWidth="40.0" resizable="false" />
+                    <TableColumn fx:id="amountColumn" prefWidth="${(recordTable.width - 65) * 0.15}"  text="Amount" />
+                    <TableColumn fx:id="dateColumn" prefWidth="${(recordTable.width - 65) * 0.15}"  text="Date" />
+                    <TableColumn fx:id="reasonColumn" prefWidth="${(recordTable.width - 65) * 0.7}" text="Reason" />
                 </columns>
                 <ContextMenu fx:id="tableContextMenu" >
                     <items>
