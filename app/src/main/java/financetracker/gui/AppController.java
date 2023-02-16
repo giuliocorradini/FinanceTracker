@@ -45,6 +45,7 @@ public class AppController implements ModelInjectable {
     @FXML private TableColumn<RecordTableModel, Boolean> recordTypeColumn;
     @FXML private MenuItem multirowDeleteMenu;
     @FXML private Pane opaqueLayer;
+    private Persistence p;
 
     public void setModel(BalanceModel model) {
         this.model = model;
@@ -116,6 +117,10 @@ public class AppController implements ModelInjectable {
         );
 
         opaqueLayer.visibleProperty().bind(addRecordDialog.visibleProperty());
+
+        // This must be done here, instead of the constructor because the object model must be populated
+        // and this is done by ControllerFactory after calling .newInstance on this class.
+        p = new Persistence(this.model.getDao());
     }
 
     @FXML protected void handleAddButtonClick() {
@@ -157,13 +162,12 @@ public class AppController implements ModelInjectable {
         FileChooser fChooser = new FileChooser();
         fChooser.setTitle("Save...");
 
-        fChooser.setInitialFileName("Untitled.dat");
+        fChooser.setInitialFileName(p.getLastFile() != null ? p.getLastFile().getName() : "Untitled.dat");
         File file = fChooser.showSaveDialog(recordTable.getScene().getWindow());
 
         if(file != null) {
-            Persistence p = new Persistence(this.model.getDao());
             try {
-                p.saveData(file.getAbsolutePath());
+                p.saveData(file);
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't save to the specified location.", ButtonType.OK);
                 a.showAndWait();
@@ -182,7 +186,7 @@ public class AppController implements ModelInjectable {
 
         if(file != null) {
             try {
-                Balance b = Persistence.loadData(file.getAbsolutePath());
+                Balance b = p.loadData(file);
                 this.model.replaceDAO(b);
                 periodSelector.setValue(PeriodFilter.ALL);
                 this.model.resetFilter();

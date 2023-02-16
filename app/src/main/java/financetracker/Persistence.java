@@ -5,8 +5,14 @@ import java.io.*;
 public class Persistence {
     private Balance balance;
 
+    private File lastFile;
+
     public Persistence(Balance b) {
         this.balance = b;
+    }
+
+    public File getLastFile() {
+        return lastFile;
     }
 
     public void saveData(String path) throws IOException {
@@ -21,6 +27,20 @@ public class Persistence {
         }
     }
 
+    public void saveData(File file) throws IOException {
+        FileOutputStream stream = new FileOutputStream(file);
+        ObjectOutputStream out = new ObjectOutputStream(stream);
+
+        try {
+            if(this.balance != null)
+                out.writeObject(this.balance);
+
+            this.lastFile = file;
+        } finally {
+            stream.close();
+        }
+    }
+
     public static Balance loadData(String path) throws IOException {
         FileInputStream stream = new FileInputStream(path);
         ObjectInputStream in = new ObjectInputStream(stream);
@@ -28,6 +48,24 @@ public class Persistence {
         try {
             Balance b = (Balance) in.readObject();
             b.rebuildIndex();
+            return b;
+        } catch(ClassNotFoundException e) {
+            System.err.println("The object in file is of an unknown class. Your data might be corrupted.");
+        } finally {
+            stream.close();
+        }
+
+        return null;
+    }
+
+    public Balance loadData(File file) throws IOException {
+        FileInputStream stream = new FileInputStream(file);
+        ObjectInputStream in = new ObjectInputStream(stream);
+
+        try {
+            Balance b = (Balance) in.readObject();
+            b.rebuildIndex();
+            this.lastFile = file;
             return b;
         } catch(ClassNotFoundException e) {
             System.err.println("The object in file is of an unknown class. Your data might be corrupted.");
