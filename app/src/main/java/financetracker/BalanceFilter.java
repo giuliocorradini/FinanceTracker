@@ -19,8 +19,12 @@ public class BalanceFilter {
         return filtered.toArray(new Record[filtered.size()]);
     }
 
+    public static boolean isRecordBetween(Record r, ChronoLocalDate start, ChronoLocalDate end) {
+        return r.getDate().compareTo(start) >= 0 && r.getDate().compareTo(end) <= 0;
+    }
+
     public static Stream<Record> filterByDateStream(Stream<Record> s, ChronoLocalDate start, ChronoLocalDate end) {
-        return s.filter(r -> r.getDate().compareTo(start) >= 0 && r.getDate().compareTo(end) <= 0);
+        return s.filter(r -> isRecordBetween(r, start, end));
     }
 
     public static Stream<Record> filterByDateStream(Balance b, ChronoLocalDate start, ChronoLocalDate end) {

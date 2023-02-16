@@ -110,6 +110,10 @@ public class AppController implements ModelInjectable {
         flowSummary.textProperty().bind(this.model.flowProperty().asString("%.2f"));
 
         periodSelector.setItems(FXCollections.observableArrayList(PeriodFilter.values()));
+        periodSelector.setValue(PeriodFilter.ALL);
+        this.model.periodFilterProperty().addListener(
+                (obs, ov, nv) -> periodSelector.setValue(nv)
+        );
 
         opaqueLayer.visibleProperty().bind(addRecordDialog.visibleProperty());
     }
@@ -218,13 +222,13 @@ public class AppController implements ModelInjectable {
         stage.show();
     }
 
-    @FXML protected void handleFilterSelection() {
-        PeriodFilter f = periodSelector.getSelectionModel().getSelectedItem();
+    @FXML protected void handleFilterSelection(ActionEvent evt) {
+        PeriodFilter f = periodSelector.getValue();
         if(f != null) {
             if(f == PeriodFilter.CUSTOM) {
-                System.out.println("custom filter");
                 showCustomPeriodSelector();
             }
+
             this.model.filterRecords(f);
         }
     }

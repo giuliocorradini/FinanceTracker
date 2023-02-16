@@ -16,8 +16,6 @@ public class BalanceModel {
         return dao;
     }
 
-    private PeriodFilter currentPeriodFilter = PeriodFilter.ALL;
-
     private ObservableList<RecordTableModel> records;
     public ObservableList<RecordTableModel> getRecords() {
         return records;
@@ -56,6 +54,17 @@ public class BalanceModel {
         this.flow.set(flow);
     }
 
+    private Property<PeriodFilter> periodFilter;
+    public PeriodFilter getPeriodFilter() {
+        return periodFilter.getValue();
+    }
+    public Property<PeriodFilter> periodFilterProperty() {
+        return periodFilter;
+    }
+    public void setPeriodFilter(PeriodFilter pf) {
+        this.periodFilter.setValue(pf);
+    }
+
     public BalanceModel(Balance data) {
         this.dao = data;
         this.records = FXCollections.observableArrayList(
@@ -68,11 +77,15 @@ public class BalanceModel {
         this.outcome = new SimpleDoubleProperty(s.outcome());
         this.flow = new SimpleDoubleProperty(s.flow());
 
+        this.periodFilter = new SimpleObjectProperty<>(PeriodFilter.ALL);
+
         this.records.addListener((ListChangeListener<RecordTableModel>)c -> updateSummary());
     }
 
     private Stream<Record> getFilteredElementsFromDAO() {
         Stream<Record> elements = this.dao.stream();
+
+        PeriodFilter currentPeriodFilter = getPeriodFilter();
 
         if (currentPeriodFilter != PeriodFilter.ALL) {
             elements = BalanceFilter.filterByDateStream(elements, currentPeriodFilter.getStartDate(), currentPeriodFilter.getEndDate());
@@ -101,7 +114,12 @@ public class BalanceModel {
 
     public void addRecord(double amount, String reason, LocalDate date) {
         //Commit data to DAO
-        this.dao.addRecord(amount, reason, date);
+        Record r = new Record(amount, reason, date);
+        this.dao.addRecord(r);
+
+        PeriodFilter f = getPeriodFilter();
+        if(f != PeriodFilter.ALL && !BalanceFilter.isRecordBetween(r, f.getStartDate(), f.getEndDate()))
+            this.setPeriodFilter(PeriodFilter.ALL);
 
         //Retrieve updated data from DAO
         updateModelFromDAO();
@@ -126,7 +144,7 @@ public class BalanceModel {
      * Sets the current filter and updates the model, by requesting the DAO for filtered objects.
      */
     public void filterRecords(PeriodFilter f) {
-        currentPeriodFilter = f;
+        setPeriodFilter(f);
 
         updateModelFromDAO();
     }
