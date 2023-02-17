@@ -19,24 +19,12 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
-
-    // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
-
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
-
     implementation 'org.odftoolkit:odfdom-java:0.11.0'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'financetracker.App'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+    mainClass = 'financetracker.Launcher'
 }
 
 javafx {
@@ -45,4 +33,16 @@ javafx {
             'javafx.controls',
             'javafx.fxml'
     ]
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': "${application.mainClassName}"
+    }
+
+    archiveBaseName = 'FinanceTracker'
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
