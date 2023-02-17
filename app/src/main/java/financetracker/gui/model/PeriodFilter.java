@@ -2,6 +2,13 @@ package financetracker.gui.model;
 
 import java.time.LocalDate;
 
+/**
+ * This class represents a time window to filter BalanceModel rows.
+ *
+ * <p>
+ *      N.B. date edits should be performed on CUSTOM element only.
+ * </p>
+ */
 public enum PeriodFilter {
     ALL         ("All", -1),
     THIS_DAY    ("This day", 0),
@@ -16,6 +23,12 @@ public enum PeriodFilter {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    /**
+     * Constructor
+     * @param desc a brief description that is shown on controls.
+     * @param period in days between start and end date, for automatic computation.
+     */
     PeriodFilter(String desc, int period) {
         this.descriptor = desc;
         this.period = period;

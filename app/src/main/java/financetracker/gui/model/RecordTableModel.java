@@ -5,6 +5,9 @@ import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
+/**
+ * This class wraps a Record and is used to represent a row of a TableView.
+ */
 public class RecordTableModel {
     private Record record;
 
@@ -84,7 +87,10 @@ public class RecordTableModel {
         this.highlighted.set(highlighted);
     }
 
-
+    /**
+     * Constructor.
+     * @param r the record to wrap.
+     */
     public RecordTableModel(Record r) {
         this.record = r;
 
@@ -95,6 +101,9 @@ public class RecordTableModel {
         this.highlighted = new SimpleBooleanProperty(false);
     }
 
+    /**
+     * @return the underlying record.
+     */
     public Record getRecord() {
         return this.record;
     }
