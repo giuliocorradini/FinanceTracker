@@ -10,6 +10,7 @@ import java.time.LocalDate;
  */
 public class RecordTableModel {
     private Record record;
+    private BalanceModel parent;
 
     private BooleanProperty selected;
 
@@ -38,7 +39,7 @@ public class RecordTableModel {
 
     public void setReason(String reason) {
         this.reason.set(reason);
-        this.record.setReason(reason);
+        this.parent.editRecord(this);
     }
 
 
@@ -54,7 +55,7 @@ public class RecordTableModel {
 
     public void setAmount(double amount) {
         this.amount.set(amount);
-        this.record.setAmount(amount);
+        this.parent.editRecord(this);
     }
 
 
@@ -70,7 +71,7 @@ public class RecordTableModel {
 
     public void setDate(LocalDate date) {
         this.date.setValue(date);
-        this.record.setDate(date);
+        this.parent.editRecord(this);
     }
 
     private BooleanProperty highlighted;
@@ -91,8 +92,9 @@ public class RecordTableModel {
      * Constructor.
      * @param r the record to wrap.
      */
-    public RecordTableModel(Record r) {
+    public RecordTableModel(BalanceModel m, Record r) {
         this.record = r;
+        this.parent = m;
 
         this.selected = new SimpleBooleanProperty(false);
         this.amount = new SimpleDoubleProperty(r.getAmount());

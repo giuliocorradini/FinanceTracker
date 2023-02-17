@@ -75,17 +75,30 @@ public class BalanceModel {
         this.periodFilter.setValue(pf);
     }
 
+    private BooleanProperty edited;
+    public boolean isEdited() {
+        return edited.get();
+    }
+
+    /**
+     * Represents if the model has been edited and not been saved.
+     */
+    public BooleanProperty editedProperty() {
+        return edited;
+    }
+    public void setEdited(boolean edited) {
+        this.edited.set(edited);
+    }
+
     /**
      * Constructor.
      * @param data the data access object to encapsulate.
      */
     public BalanceModel(Balance data) {
         this.dao = data;
-        this.records = FXCollections.observableArrayList(
-                this.dao.stream().map(RecordTableModel::new).toList()
-        );
-
+        this.records = FXCollections.observableArrayList();
         this.periodFilter = new SimpleObjectProperty<>(PeriodFilter.ALL);
+        this.updateModelFromDAO();
 
         Summary s = this.getBalanceSummary();
 
@@ -93,6 +106,7 @@ public class BalanceModel {
         this.outcome = new SimpleDoubleProperty(s.outcome());
         this.flow = new SimpleDoubleProperty(s.flow());
 
+        this.edited = new SimpleBooleanProperty(false);
 
         this.records.addListener((ListChangeListener<RecordTableModel>)c -> updateSummary());
     }
@@ -188,7 +202,7 @@ public class BalanceModel {
         Stream<Record> elements = getFilteredElementsFromDAO();
 
         this.records.setAll(
-                elements.map(RecordTableModel::new).toList()
+                elements.map(r -> new RecordTableModel(this, r)).toList()
         );  //TODO: profile memory consumption
     }
 
@@ -211,6 +225,8 @@ public class BalanceModel {
 
         //Retrieve updated data from DAO
         updateModelFromDAO();
+
+        setEdited(true);
     }
 
     /**
@@ -224,6 +240,8 @@ public class BalanceModel {
             this.dao = b;
             updateModelFromDAO();
         }
+
+        setEdited(true);
     }
 
     /**
@@ -235,6 +253,7 @@ public class BalanceModel {
     public void deleteRecord(RecordTableModel r) {
         this.dao.deleteRecord(r.getRecord());
         updateModelFromDAO();
+        setEdited(true);
     }
 
     /**
@@ -244,6 +263,7 @@ public class BalanceModel {
     public void deleteRecords(Stream<RecordTableModel> records) {
         records.forEach(r -> this.dao.deleteRecord(r.getRecord()));
         updateModelFromDAO();
+        setEdited(true);
     }
 
     /**
@@ -269,5 +289,24 @@ public class BalanceModel {
     public void resetAll() {
         this.replaceDAO(new Balance());
         this.resetFilter();
+    }
+
+    /**
+     * Updates the underlying record, with the values in RecordTableModel.
+     * If needed updates the summary properties.
+     * @param r a row
+     */
+    public void editRecord(RecordTableModel r) {
+        Record ur = r.getRecord();
+        boolean updateSum = (ur.getAmount() != r.getAmount());
+
+        ur.setDate(r.getDate());
+        ur.setReason(r.getReason());
+        ur.setAmount(r.getAmount());
+
+        if(updateSum)
+            updateSummary();
+
+        setEdited(true);
     }
 }
