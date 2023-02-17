@@ -83,6 +83,7 @@ public class App extends Application {
                 if (resp == ButtonType.YES)
                     try {
                         this.model.replaceDAO(autosaveFacility.loadFromTemp());
+                        this.model.setEdited(true);
                     } catch (IOException e) {
                         new Alert(Alert.AlertType.ERROR, "Can't restore from temporary file.", ButtonType.OK).showAndWait();
                     }

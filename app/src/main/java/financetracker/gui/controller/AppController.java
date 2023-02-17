@@ -207,6 +207,7 @@ public class AppController implements ModelInjectable {
         if(file != null) {
             try {
                 p.saveData(this.model.getDao(), file);
+                this.model.setEdited(false);
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't save to the specified location.", ButtonType.OK);
                 a.showAndWait();
@@ -362,9 +363,21 @@ public class AppController implements ModelInjectable {
     }
 
     /**
+     * Opens a dialog that asks the user if the works must be saved.
+     */
+    private void askToSave() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "You have unsaved work. Do you want to save it?", ButtonType.NO, ButtonType.YES);
+        if(a.showAndWait().get() == ButtonType.YES)
+            handleSave();
+    }
+
+    /**
      * Resets the model when clicking on "File > Close"
      */
     public void handleClose() {
+        if(this.model.isEdited())
+            askToSave();
+
         this.model.resetAll();
     }
 }

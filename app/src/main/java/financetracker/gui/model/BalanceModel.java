@@ -241,7 +241,7 @@ public class BalanceModel {
             updateModelFromDAO();
         }
 
-        setEdited(true);
+        setEdited(false);
     }
 
     /**
