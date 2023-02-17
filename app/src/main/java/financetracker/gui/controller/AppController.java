@@ -66,6 +66,8 @@ public class AppController implements ModelInjectable {
     @FXML private Button periodEditButton;
     private Persistence p;
     private NumberFormat fmt;
+    private Stage searchWindow;
+    private Scene searchScene;
 
     /**
      * Constructor. Sets up the persistence mechanism and a formatter for double parsing.
@@ -302,22 +304,37 @@ public class AppController implements ModelInjectable {
     }
 
     /**
-     * Builds a search window on-the-fly and shows it to the user.
+     * Builds the search scene, to populate the window.
      */
-    @FXML protected void showSearch() {
+    private void loadSearchWindow() {
         Parent root = ViewLoader.load(
                 "Search.fxml",
                 cls -> ControllerFactory.buildController(cls, model, this)
         );
+        searchScene = new Scene(root, 550, 155);
+    }
 
-        Scene scene = new Scene(root, 550, 155);
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setTitle("Search");
-        stage.show();
+    /**
+     * Shows the search window. If it's the first time showing it, it creates the
+     * window and the scene first.
+     */
+    @FXML protected void showSearch() {
+        if(searchScene == null)
+            loadSearchWindow();
 
-        stage.setOnCloseRequest(r -> highlightRecord(null));
+        if(searchWindow == null) {
+            searchWindow = new Stage();
+            searchWindow.setResizable(false);
+            searchWindow.setScene(searchScene);
+            searchWindow.setTitle("Search");
+            searchWindow.show();
+
+            searchWindow.setOnCloseRequest(r -> highlightRecord(null));
+        } else {
+            searchWindow.show();
+            searchWindow.requestFocus();
+            searchWindow.toFront();
+        }
     }
 
     static RecordTableModel highlightedRecord;

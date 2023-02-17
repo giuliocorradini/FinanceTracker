@@ -2,6 +2,8 @@ package financetracker.gui.controller;
 
 import financetracker.BalanceSearchEngine;
 import financetracker.gui.model.BalanceModel;
+import financetracker.gui.model.RecordTableModel;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -27,9 +29,30 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
     @FXML private Pane searchFieldGroup;
     @FXML private Label matchCounter;
 
+    /**
+     * The initialization method for the controller. Called after all the controls are
+     * created and populated. This controller binds to the model and deletes the search
+     * results if an element is deleted.
+     */
+    @FXML public void initialize() {
+        this.model.getRecords().addListener(
+                (ListChangeListener<? super RecordTableModel>)  c -> {
+                    c.next();
+                    if(c.getRemovedSize() > 0 || c.getAddedSize() > 0)
+                        invalidateSearchResults();
+                }
+        );
+    }
+
     @Override
     public void setModel(BalanceModel b) {
         this.model = b;
+    }
+
+    private void invalidateSearchResults() {
+        this.results = null;
+        this.currentIndex = 0;
+        matchCounter.setText("");
     }
 
     /**
