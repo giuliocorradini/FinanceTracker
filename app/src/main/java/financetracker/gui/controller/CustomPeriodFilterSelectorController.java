@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
+/**
+ * Controller for the custom period selector window.
+ */
 public class CustomPeriodFilterSelectorController implements ModelInjectable {
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
@@ -26,21 +29,34 @@ public class CustomPeriodFilterSelectorController implements ModelInjectable {
         this.model = m;
     }
 
+    /**
+     * Clean the control values.
+     */
     private void cleanUp() {
         startDatePicker.setValue(PeriodFilter.CUSTOM.getStartDate());
         endDatePicker.setValue(PeriodFilter.CUSTOM.getEndDate());
     }
 
+    /**
+     * Close the associated window with the controlled view.
+     */
     private void closeThisWindow() {
         Stage s = (Stage) rootPane.getScene().getWindow();
         s.close();
     }
 
+    /**
+     * Handle the action for "Cancel" button.
+     */
     @FXML protected void handleCancel() {
         cleanUp();
         closeThisWindow();
     }
 
+    /**
+     * Handle the action for the "Confirm" button.
+     * If the specified period is not valid, shows an alert.
+     */
     @FXML protected void handleConfirm() {
         LocalDate start = startDatePicker.getValue();
         LocalDate end = endDatePicker.getValue();

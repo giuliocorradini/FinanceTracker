@@ -39,6 +39,9 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Locale;
 
+/**
+ * The main controller. Ties to App.fxml.
+ */
 public class AppController implements ModelInjectable {
 
     private BalanceModel model;
@@ -64,6 +67,9 @@ public class AppController implements ModelInjectable {
     private Persistence p;
     private NumberFormat fmt;
 
+    /**
+     * Constructor. Sets up the persistence mechanism and a formatter for double parsing.
+     */
     public AppController() {
         p = new Persistence();
         fmt = NumberFormat.getInstance(Locale.getDefault());
@@ -73,9 +79,11 @@ public class AppController implements ModelInjectable {
         this.model = model;
     }
 
-    /*
+    /**
      * Called after the constructor for this object. We assume nodes marked with @FXML are
      * already populated.
+     * Binds the controls (nodes) to the model data. Whenever this data changes, the graphic is
+     * automatically updated by the JFX render engine.
      */
     @FXML public void initialize() {
         addRecordDialog.setVisible(false);
@@ -149,6 +157,11 @@ public class AppController implements ModelInjectable {
         addRecordDialog.setManaged(true);
     }
 
+    /**
+     * Shows a file chooser to select the file for export. Calls the appropriate exporter
+     * object to produce a file.
+     * @param evt
+     */
     @FXML protected void handleExport(ActionEvent evt) {
         FileChooser fChooser = new FileChooser();
         fChooser.setTitle("Export...");
@@ -179,6 +192,9 @@ public class AppController implements ModelInjectable {
         }
     }
 
+    /**
+     * Shows a file dialog to select the save location, and saves current data.
+     */
     @FXML protected void handleSave() {
         FileChooser fChooser = new FileChooser();
         fChooser.setTitle("Save...");
@@ -196,6 +212,9 @@ public class AppController implements ModelInjectable {
         }
     }
 
+    /**
+     * Shows a file dialog to select the file to load from.
+     */
     @FXML protected void handleLoad() {
         FileChooser fChooser = new FileChooser();
         fChooser.setTitle("Open data from file...");
@@ -218,6 +237,10 @@ public class AppController implements ModelInjectable {
 
     }
 
+    /**
+     * Deletes a single selected row from the model. Callback for the right-click "Delete" action
+     * on a row.
+     */
     @FXML protected void handleSingleRowDelete() {
         RecordTableModel r = recordTable.getSelectionModel().getSelectedItem();
 
@@ -226,6 +249,9 @@ public class AppController implements ModelInjectable {
         }
     }
 
+    /**
+     * Deletes a set of rows, selected with the checkboxes on the first column.
+     */
     @FXML protected void handleSelectedRowsDelete() {
         this.model.deleteRecords(
                 recordTable.getItems().stream()
@@ -233,6 +259,9 @@ public class AppController implements ModelInjectable {
         );
     }
 
+    /**
+     * Shows the custom period selector window.
+     */
     @FXML protected void showCustomPeriodSelector() {
         Parent root = ViewLoader.load(
                 "CustomPeriodFilterSelector.fxml",
@@ -246,6 +275,10 @@ public class AppController implements ModelInjectable {
         stage.show();
     }
 
+    /**
+     * Handles a filter selection, from the dropdown menu; and sets it in the model.
+     * @param evt
+     */
     @FXML protected void handleFilterSelection(ActionEvent evt) {
         PeriodFilter f = periodSelector.getValue();
         if(f != null) {
@@ -259,12 +292,18 @@ public class AppController implements ModelInjectable {
         }
     }
 
+    /**
+     * Checks if any checkbox is ticked, and shows the delete menu accordingly.
+     */
     @FXML protected void handleEditMenuClick() {
         multirowDeleteMenu.setDisable(
             !recordTable.getItems().stream().map(r -> selectColumn.getCellData(r)).reduce(Boolean::logicalOr).orElse(false)
         );
     }
 
+    /**
+     * Builds a search window on-the-fly and shows it to the user.
+     */
     @FXML protected void showSearch() {
         Parent root = ViewLoader.load(
                 "Search.fxml",
@@ -283,8 +322,9 @@ public class AppController implements ModelInjectable {
 
     static RecordTableModel highlightedRecord;
 
-    /*
+    /**
      * Highlights a row correspondent to the passed Record. If null is passed, clears all highlighting.
+     * @param r the record, corresponding to a record row, to highlight.
      */
     public void highlightRecord(Record r) {
         // Reset previous highlighted, if present
@@ -304,6 +344,9 @@ public class AppController implements ModelInjectable {
         recordTable.refresh();
     }
 
+    /**
+     * Resets the model when clicking on "File > Close"
+     */
     public void handleClose() {
         this.model.resetAll();
     }

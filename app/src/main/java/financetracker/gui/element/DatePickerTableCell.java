@@ -12,9 +12,18 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * A cell that shows a date, and a DatePicker control when editing.
+ * @param <T> the class representing a table row.
+ */
 public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
     private final DatePicker picker;
 
+    /**
+     * Constrcutor.
+     * Build the underlying DatePicker that is shown only when editing. The control is then hidden
+     * and data commited with a double-click on a day in the calendar, or a keypress.
+     */
     public DatePickerTableCell() {
         picker = new DatePicker();
         picker.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
@@ -50,6 +59,14 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
         );
     }
 
+    /**
+     * Sets the graphic for the cell: a simple string with the date if the user is not
+     * editing, otherwise shows the DatePicker control.
+     * @param date The new item for the cell.
+     * @param empty whether or not this cell represents data from the list. If it
+     *        is empty, then it does not represent any domain data, but is a cell
+     *        being used to render an "empty" row.
+     */
     @Override
     public void updateItem(LocalDate date, boolean empty) {
         super.updateItem(date, empty);
@@ -62,12 +79,20 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
         }
     }
 
+    /**
+     * Called by superclass when the user wants to edit the cell. Gets the current value
+     * and pass it to the picker control.
+     */
     @Override
     public void startEdit() {
         super.startEdit();
         picker.setValue(getDate());
     }
 
+    /**
+     * Parse the current text in DatePicker and attempt to convert it to a date.
+     * @return a date
+     */
     private LocalDate getDate() {
         if (getText() == null)
             return LocalDate.now();

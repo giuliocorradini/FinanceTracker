@@ -11,7 +11,10 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Locale;
 
-
+/**
+ * Controller for AddRecordDialog. This view is usually shown as a child panel, not as
+ * a separate window.
+ */
 public class AddRecordDialogController implements ModelInjectable {
     private BalanceModel model;
 
@@ -20,6 +23,10 @@ public class AddRecordDialogController implements ModelInjectable {
     @FXML private DatePicker date;
     @FXML private Pane addRecordDialog; //the view controlled by this
 
+    /**
+     * Initializer, called by the JFX subsystem.
+     * Sets an action listener that cleans up the controls when showing this dialog.
+     */
     @FXML public void initialize() {
         addRecordDialog.visibleProperty().addListener((prop, ov, nv) -> {
             if(nv) {
@@ -41,6 +48,10 @@ public class AddRecordDialogController implements ModelInjectable {
         addRecordDialog.setManaged(false);
     }
 
+    /**
+     * Handles the action for "Submit" button. Tries to add a new record to the model.
+     * If the add fails, shows a dialog with the reason.
+     */
     @FXML protected void handleSubmit(ActionEvent evt) {
         NumberFormat fmt = NumberFormat.getInstance(Locale.getDefault());
 
@@ -75,12 +86,18 @@ public class AddRecordDialogController implements ModelInjectable {
         closeThisDialog();
     }
 
+    /**
+     * Changes the amount control sign, by removing any `-` at the start of the string.
+     */
     public void setIncome() {
         String user_input = amount.getText();
 
         amount.setText(user_input.replaceFirst("^-", ""));
     }
 
+    /**
+     * Changes the amount control sign, by adding a `-` at the start of the string.
+     */
     public void setOutcome() {
         String user_input = amount.getText();
 

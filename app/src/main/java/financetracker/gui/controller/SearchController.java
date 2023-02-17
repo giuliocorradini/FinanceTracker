@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-
+/**
+ * The controller class for the Search window.
+ */
 public class SearchController implements ModelInjectable, ControllerInjectable {
     private BalanceModel model;
     private AppController ac;
@@ -30,6 +32,9 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         this.model = b;
     }
 
+    /**
+     * Performs the search: reads the query, extract the results and saves them in this.results
+     */
     private void performSearch() {
         BalanceSearchEngine engine = new BalanceSearchEngine(this.model.getDao());
         String query = searchField.getText();
@@ -55,6 +60,9 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         }
     }
 
+    /**
+     * Actual call to the AppController, to show the selected result (with currentIndex).
+     */
     private void showResult() {
         if(this.results != null && results.size() > 0) {
             Record r = results.get(currentIndex);
@@ -64,6 +72,10 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         }
     }
 
+    /**
+     * Notifies the AppController instance to show the previous result,
+     * by selecting it from the list.
+     */
     @FXML protected void highlightPrevious() {
         if(this.results == null)
             performSearch();
@@ -75,6 +87,10 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         showResult();
     }
 
+    /**
+     * Notifies the AppController instance to show the next result,
+     * by selecting it from the list.
+     */
     @FXML protected void highlightNext() {
         if(this.results == null)
             performSearch();
@@ -86,6 +102,9 @@ public class SearchController implements ModelInjectable, ControllerInjectable {
         showResult();
     }
 
+    /**
+     * Action handler for the "Search" button
+     */
     @FXML protected void handleSearch() {
         performSearch();
 
