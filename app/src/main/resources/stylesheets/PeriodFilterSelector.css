@@ -1,0 +1,88 @@
+.root {
+    -fx-background-color: #fcfdf7;
+}
+
+Button.top-layer {
+    -fx-text-fill: #101f10;
+    -fx-background-color: #d5e8d0;
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+    -fx-padding: 0px 24px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 50px;
+    -fx-graphic-text-gap: 10px;
+}
+
+Button.top-layer:hover {
+    -fx-effect: dropshadow(three-pass-box, #72796f, 4, 0, 0, 2);
+}
+
+Text.dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+}
+
+.text-field {
+    -fx-font-size: 16px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #72796f;
+    -fx-padding: 10px 16px;
+    -fx-background-color: transparent;
+}
+
+.text-field:focused {
+    -fx-border-color: #216c2e;
+    -fx-border-width: 2px;
+}
+
+.text-field.error {
+    -fx-border-color: #ba1a1a;
+    -fx-border-width: 2px;
+}
+
+Label.error {
+    -fx-text-fill: #ba1a1a;
+}
+
+
+Label {
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 500;
+}
+
+Label.for-text-field {
+    -fx-translate-y: -8px;
+    -fx-translate-x: 16px;
+    -fx-padding: 0 4px;
+    -fx-background-color: #fcfdf7;
+}
+
+.date-picker {
+    -fx-background-color: transparent;
+}
+
+.date-picker .text-field {
+    -fx-border-radius: 4px 0px 0px 4px;
+}
+
+.date-picker .arrow-button {
+    -fx-background-image: none;
+    -fx-border-color: #002106;
+    -fx-border-width: 1px 1px 1px 0px;
+    -fx-border-radius: 0px 4px 4px 0px;
+    -fx-background-color: transparent;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #216c2e;
+}
+
+.date-picker:focused .arrow-button {
+    -fx-border-color: #216c2e;
+    -fx-border-width: 2px 2px 2px 0px;
+}

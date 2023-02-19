@@ -289,8 +289,9 @@ public class AppController implements ModelInjectable {
                 cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
         );
 
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 500, 300);
         Stage stage = new Stage();
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.setTitle("Select custom period");
         stage.show();

@@ -8,32 +8,37 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Button?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.controller.PeriodFilterSelectorController" fx:id="rootPane">
-    <top>
-        <Text text="Select a period" />
-    </top>
-    <center>
-        <VBox>
-            <Label text="End date:" />
-            <DatePicker fx:id="endDatePicker" />
-            <Label text="Start date:" />
-            <DatePicker fx:id="startDatePicker" />
-            <HBox>
-                <children>
-                    <Button text="1 day" onAction="#handleQuickPeriod"/>
-                    <Button text="1 week" onAction="#handleQuickPeriod"/>
-                    <Button text="1 month" onAction="#handleQuickPeriod"/>
-                    <Button text="1 year" onAction="#handleQuickPeriod"/>
-                </children>
-            </HBox>
-        </VBox>
-    </center>
-    <bottom>
+<AnchorPane
+        xmlns="http://javafx.com/javafx/17.0.2-ea"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="financetracker.gui.controller.PeriodFilterSelectorController"
+        fx:id="rootPane"
+        stylesheets="stylesheets/PeriodFilterSelector.css">
+    <VBox spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <Text text="Select a filter period" styleClass="dialog-title"/>
+        <AnchorPane>
+            <DatePicker fx:id="endDatePicker" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label text="End date:" styleClass="for-text-field" />
+        </AnchorPane>
+        <AnchorPane>
+            <DatePicker fx:id="startDatePicker" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label text="Start date:" styleClass="for-text-field" />
+        </AnchorPane>
+        <Label text="Quick range" />
+        <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <children>
+                <Button text="1 day" onAction="#handleQuickPeriod" styleClass="top-layer"/><Pane HBox.hgrow="ALWAYS" />
+                <Button text="1 week" onAction="#handleQuickPeriod" styleClass="top-layer"/><Pane HBox.hgrow="ALWAYS" />
+                <Button text="1 month" onAction="#handleQuickPeriod" styleClass="top-layer"/><Pane HBox.hgrow="ALWAYS" />
+                <Button text="1 year" onAction="#handleQuickPeriod" styleClass="top-layer"/>
+            </children>
+        </HBox>
+        <Pane VBox.vgrow="ALWAYS"/>
         <ButtonBar>
             <buttons>
-                <Button text="Cancel" onAction="#handleCancel" />
-                <Button text="Confirm" onAction="#handleConfirm" />
+                <Button text="Cancel" onAction="#handleCancel" styleClass="top-layer"/>
+                <Button text="Confirm" onAction="#handleConfirm" styleClass="top-layer"/>
             </buttons>
         </ButtonBar>
-    </bottom>
-</BorderPane>
+    </VBox>
+</AnchorPane>
