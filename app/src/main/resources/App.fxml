@@ -6,6 +6,30 @@
 
 <AnchorPane minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.controller.AppController" stylesheets="stylesheets/App.css">
     <BorderPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+        <top>
+            <MenuBar BorderPane.alignment="CENTER" useSystemMenuBar="true">
+                <menus>
+                    <Menu mnemonicParsing="false" text="File">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Save" onAction="#handleSave" />
+                            <MenuItem mnemonicParsing="false" text="Load" onAction="#handleLoad" />
+                            <MenuItem mnemonicParsing="false" text="Close" onAction="#handleClose" />
+                            <Menu mnemonicParsing="false" text="Export...">
+                                <MenuItem mnemonicParsing="false" text="CSV" onAction="#handleExport" fx:id="csvExportMenuItem" />
+                                <MenuItem mnemonicParsing="false" text="OpenDocument" onAction="#handleExport" fx:id="openDocumentExportMenuItem" />
+                                <MenuItem mnemonicParsing="false" text="Columnar File" onAction="#handleExport" fx:id="columnarExportMenuItem" />
+                            </Menu>
+                            <MenuItem text="Search" onAction="#showSearch" />
+                        </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Edit" onShowing="#handleEditMenuClick">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Delete" onAction="#handleSelectedRowsDelete" fx:id="multirowDeleteMenu"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+        </top>
         <center>
             <TableView fx:id="recordTable" BorderPane.alignment="CENTER" >
                 <columns>
@@ -22,29 +46,6 @@
                 </ContextMenu>
             </TableView>
         </center>
-        <top>
-            <MenuBar BorderPane.alignment="CENTER" useSystemMenuBar="true">
-                <menus>
-                    <Menu mnemonicParsing="false" text="File">
-                        <items>
-                            <MenuItem mnemonicParsing="false" text="Save" onAction="#handleSave" />
-                            <MenuItem mnemonicParsing="false" text="Load" onAction="#handleLoad" />
-                            <MenuItem mnemonicParsing="false" text="Close" onAction="#handleClose" />
-                            <Menu mnemonicParsing="false" text="Export...">
-                                <MenuItem mnemonicParsing="false" text="CSV" onAction="#handleExport" fx:id="csvExportMenuItem" />
-                                <MenuItem mnemonicParsing="false" text="OpenDocument" onAction="#handleExport" fx:id="openDocumentExportMenuItem" />
-                            </Menu>
-                            <MenuItem text="Search" onAction="#showSearch" />
-                        </items>
-                    </Menu>
-                    <Menu mnemonicParsing="false" text="Edit" onShowing="#handleEditMenuClick">
-                        <items>
-                            <MenuItem mnemonicParsing="false" text="Delete" onAction="#handleSelectedRowsDelete" fx:id="multirowDeleteMenu"/>
-                        </items>
-                    </Menu>
-                </menus>
-            </MenuBar>
-        </top>
         <bottom>
             <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
                 <children>
@@ -55,7 +56,7 @@
                     <Label text="Flow:" />
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" />
                     <Pane HBox.hgrow="ALWAYS" />
-                    <Button onAction="#showCustomPeriodSelector" text="Filter" fx:id="periodEditButton"/>
+                    <Button onAction="#showCustomPeriodSelector" text="Filter" />
                     <Button id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
                 </children>
             </HBox>

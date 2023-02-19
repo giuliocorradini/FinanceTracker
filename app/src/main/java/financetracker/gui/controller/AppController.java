@@ -12,6 +12,7 @@ import financetracker.gui.model.PeriodFilter;
 import financetracker.gui.model.RecordTableModel;
 import financetracker.io.Persistence;
 import financetracker.io.export.CSV;
+import financetracker.io.export.ColumnarExport;
 import financetracker.io.export.Export;
 import financetracker.io.export.OpenDocument;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -36,6 +37,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * The main controller. Ties to App.fxml.
@@ -60,7 +62,7 @@ public class AppController implements ModelInjectable {
     @FXML private TableColumn<RecordTableModel, Boolean> recordTypeColumn;
     @FXML private MenuItem multirowDeleteMenu;
     @FXML private Pane opaqueLayer;
-    @FXML private Button periodEditButton;
+    @FXML private MenuItem columnarExportMenuItem;
     private Persistence p;
     private NumberFormat fmt;
     private Stage searchWindow;
@@ -148,26 +150,28 @@ public class AppController implements ModelInjectable {
     }
 
     /**
-     * Shows a file chooser to select the file for export. Calls the appropriate exporter
-     * object to produce a file.
-     * @param evt
+     * Shows a dialog for selecting the custom separator when exporting
+     * as a columnar file. Suggest the use of pipe '|' as separator
+     * by default, but the user can enter whatever they want.
+     * @return An optional value with separator.
      */
-    @FXML protected void handleExport(ActionEvent evt) {
+    private Optional<String> showCustomSeparatorSelector() {
+        TextInputDialog d = new TextInputDialog("|");
+        d.setTitle("Select the separator");
+        d.setHeaderText("Select a separator for columnar export.");
+        d.setContentText("Separator char:");
+
+        return d.showAndWait();
+    }
+
+    /**
+     * Shows a file dialog for data export.
+     * @param extension the file extension.
+     * @param exporter a data exporter, that implements {@link Export}.
+     */
+    private void showDialogAndExport(String extension, Export exporter) {
         FileChooser fChooser = new FileChooser();
         fChooser.setTitle("Export...");
-
-        String extension;
-        Export exporter;
-
-        if(evt.getSource() == csvExportMenuItem) {
-            extension = ".csv";
-            exporter = new CSV(this.model.getDao());
-        } else if (evt.getSource() == openDocumentExportMenuItem) {
-            extension = ".ods";
-            exporter = new OpenDocument(this.model.getDao());
-        } else {
-            return;
-        }
 
         fChooser.setInitialFileName("Untitled" + extension);
         File file = fChooser.showSaveDialog(recordTable.getScene().getWindow());
@@ -180,6 +184,39 @@ public class AppController implements ModelInjectable {
                 a.showAndWait();
             }
         }
+    }
+
+    /**
+     * Shows a file chooser to select the file for export. Calls the appropriate exporter
+     * object to produce a file.
+     * @param evt
+     */
+    @FXML protected void handleExport(ActionEvent evt) {
+        String extension;
+        Export exporter;
+
+        if(evt.getSource() == csvExportMenuItem) {
+            extension = ".csv";
+            exporter = new CSV(this.model.getDao());
+
+        } else if (evt.getSource() == openDocumentExportMenuItem) {
+            extension = ".ods";
+            exporter = new OpenDocument(this.model.getDao());
+
+        } else if (evt.getSource() == columnarExportMenuItem) {
+            extension = "";
+            Optional<String> s = showCustomSeparatorSelector();
+
+            if(s.isPresent())
+                exporter = new ColumnarExport(this.model.getDao(), s.get());
+            else
+                return;
+
+        } else {
+            return;
+        }
+
+        showDialogAndExport(extension, exporter);
     }
 
     /**

@@ -1,5 +1,6 @@
 .highlight_cell {
     -fx-background-color: yellow;
+    -fx-text-fill: black;
 }
 
 .opaque_layer {
