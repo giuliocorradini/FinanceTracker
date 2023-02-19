@@ -61,7 +61,6 @@ public class AppController implements ModelInjectable {
     @FXML private MenuItem multirowDeleteMenu;
     @FXML private Pane opaqueLayer;
     @FXML private MenuItem columnarExportMenuItem;
-    @FXML private MenuItem saveButton;
     private Persistence p;
     private NumberFormat fmt;
     private Stage searchWindow;
