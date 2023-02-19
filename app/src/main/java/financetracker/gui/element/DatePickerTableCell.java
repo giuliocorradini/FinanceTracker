@@ -1,5 +1,6 @@
 package financetracker.gui.element;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,8 +17,9 @@ import javafx.scene.input.MouseEvent;
  * A cell that shows a date, and a DatePicker control when editing.
  * @param <T> the class representing a table row.
  */
-public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
+public class DatePickerTableCell<T> extends StylingControlCell<T, LocalDate> {
     private final DatePicker picker;
+    private final FailableDateConverter converter;
 
     /**
      * Constructor.
@@ -25,11 +27,24 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
      * and data committed with a double click on a day in the calendar, or a keypress.
      */
     public DatePickerTableCell() {
+        super();
         picker = new DatePicker();
+        converter = new FailableDateConverter();
+
+        setConverter(converter);
+        setControl(picker);
+
         picker.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
-                picker.setValue(picker.getConverter().fromString(picker.getEditor().getText()));
-                commitEdit(picker.getValue());
+                try {
+                    picker.setValue(
+                            converter.fromStringWithException(picker.getEditor().getText())
+                    );
+                    commitEdit(picker.getValue());
+                    setError(false);
+                } catch (ParseException e) {
+                    setError(true);
+                }
             }
 
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -51,32 +66,6 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
 
             return cell;
         });
-
-        contentDisplayProperty().bind(
-                Bindings.when(editingProperty())
-                        .then(ContentDisplay.GRAPHIC_ONLY)
-                        .otherwise(ContentDisplay.TEXT_ONLY)
-        );
-    }
-
-    /**
-     * Sets the graphic for the cell: a simple string with the date if the user is not
-     * editing, otherwise shows the DatePicker control.
-     * @param date The new item for the cell.
-     * @param empty whether or not this cell represents data from the list. If it
-     *        is empty, then it does not represent any domain data, but is a cell
-     *        being used to render an "empty" row.
-     */
-    @Override
-    public void updateItem(LocalDate date, boolean empty) {
-        super.updateItem(date, empty);
-        if (date == null || empty) {
-            setText(null);
-            setGraphic(null);
-        } else {
-            setGraphic(this.picker);
-            setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        }
     }
 
     /**

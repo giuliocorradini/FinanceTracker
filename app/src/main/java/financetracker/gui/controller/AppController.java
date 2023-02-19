@@ -3,7 +3,7 @@ package financetracker.gui.controller;
 import financetracker.*;
 import financetracker.Record;
 import financetracker.gui.ControllerFactory;
-import financetracker.gui.element.StylingDoubleTextTableCell;
+import financetracker.gui.element.StylingDoubleFieldCell;
 import financetracker.gui.model.BalanceModel;
 import financetracker.gui.ViewLoader;
 import financetracker.gui.element.DatePickerTableCell;
@@ -114,7 +114,7 @@ public class AppController implements ModelInjectable {
             event.getTableView().getSelectionModel().getSelectedItem().setDate(event.getNewValue());
         });
 
-        amountColumn.setCellFactory(cell -> new StylingDoubleTextTableCell());
+        amountColumn.setCellFactory(cell -> new StylingDoubleFieldCell());
         amountColumn.setCellValueFactory(cell -> new SimpleObjectProperty<Double>(cell.getValue().getAmount()));
         amountColumn.setOnEditCommit(event -> {
             event.getTableView().getSelectionModel().getSelectedItem().setAmount(event.getNewValue());
