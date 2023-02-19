@@ -14,17 +14,7 @@ public class HighlightableTextFieldCell extends TextFieldTableCell<RecordTableMo
      */
     public HighlightableTextFieldCell() {
         super();
-        setConverter(new StringConverter<String>() {
-            @Override
-            public String toString(String object) {
-                return object;
-            }
-
-            @Override
-            public String fromString(String string) {
-                return string;
-            }
-        });
+        setConverter(new StringStringConverter());
 
     }
 
@@ -32,7 +22,7 @@ public class HighlightableTextFieldCell extends TextFieldTableCell<RecordTableMo
      * Updates the cell look when the row content changes. Sets the according style class if
      * the highlighted property is set; removes it otherwise.
      * @param content The new item for the cell.
-     * @param empty whether or not this cell represents data from the list. If it
+     * @param empty whether this cell represents data from the list. If it
      *        is empty, then it does not represent any domain data, but is a cell
      *        being used to render an "empty" row.
      */

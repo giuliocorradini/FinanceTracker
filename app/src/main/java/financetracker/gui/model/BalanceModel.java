@@ -203,7 +203,7 @@ public class BalanceModel {
 
         this.records.setAll(
                 elements.map(r -> new RecordTableModel(this, r)).toList()
-        );  //TODO: profile memory consumption
+        );
     }
 
     /**

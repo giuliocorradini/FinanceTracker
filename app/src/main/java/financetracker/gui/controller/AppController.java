@@ -3,27 +3,25 @@ package financetracker.gui.controller;
 import financetracker.*;
 import financetracker.Record;
 import financetracker.gui.ControllerFactory;
+import financetracker.gui.element.StylingDoubleTextTableCell;
 import financetracker.gui.model.BalanceModel;
 import financetracker.gui.ViewLoader;
 import financetracker.gui.element.DatePickerTableCell;
 import financetracker.gui.element.HighlightableTextFieldCell;
 import financetracker.gui.element.IconTableCell;
-import financetracker.gui.model.PeriodFilter;
 import financetracker.gui.model.RecordTableModel;
 import financetracker.io.Persistence;
 import financetracker.io.export.CSV;
 import financetracker.io.export.ColumnarExport;
 import financetracker.io.export.Export;
 import financetracker.io.export.OpenDocument;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -34,7 +32,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Optional;
@@ -50,7 +47,7 @@ public class AppController implements ModelInjectable {
     @FXML private ContextMenu tableContextMenu;
     @FXML private MenuItem deleteMenuItem;
     @FXML private TableColumn<RecordTableModel, LocalDate> dateColumn;
-    @FXML private TableColumn<RecordTableModel, String> amountColumn;
+    @FXML private TableColumn<RecordTableModel, Double> amountColumn;
     @FXML private TableColumn<RecordTableModel, String> reasonColumn;
     @FXML private TableColumn<RecordTableModel, Boolean> selectColumn;
     @FXML private Text incomeSummary;
@@ -110,22 +107,16 @@ public class AppController implements ModelInjectable {
         selectColumn.setCellFactory(c -> new CheckBoxTableCell<>());
         selectColumn.setCellValueFactory(cell -> cell.getValue().selectedProperty());
 
-        dateColumn.setCellValueFactory(cell -> cell.getValue().dateProperty());
         dateColumn.setCellFactory(c -> new DatePickerTableCell<>());
+        dateColumn.setCellValueFactory(cell -> cell.getValue().dateProperty());
         dateColumn.setOnEditCommit(event -> {
             event.getTableView().getSelectionModel().getSelectedItem().setDate(event.getNewValue());
         });
 
-        amountColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        amountColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format("%.2f", cell.getValue().getAmount())));
-        amountColumn.setOnEditCommit(event -> { //invoked by TableCell.updateItem
-            RecordTableModel selectedItem = event.getTableView().getSelectionModel().getSelectedItem();
-            try {
-                Double newval = fmt.parse(event.getNewValue()).doubleValue();
-                selectedItem.setAmount(newval);
-            } catch (ParseException e) {
-                //TODO: red-bordered cell
-            }
+        amountColumn.setCellFactory(cell -> new StylingDoubleTextTableCell());
+        amountColumn.setCellValueFactory(cell -> new SimpleObjectProperty<Double>(cell.getValue().getAmount()));
+        amountColumn.setOnEditCommit(event -> {
+            event.getTableView().getSelectionModel().getSelectedItem().setAmount(event.getNewValue());
         });
 
         reasonColumn.setCellFactory(cell -> new HighlightableTextFieldCell());

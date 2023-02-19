@@ -6,3 +6,8 @@
 .opaque_layer {
     -fx-background-color: rgb(0, 0, 0, 0.5);
 }
+
+.error {
+    -fx-border-color: red;
+    -fx-border-width: 1px;
+}

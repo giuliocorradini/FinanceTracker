@@ -20,9 +20,9 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
     private final DatePicker picker;
 
     /**
-     * Constrcutor.
+     * Constructor.
      * Build the underlying DatePicker that is shown only when editing. The control is then hidden
-     * and data commited with a double-click on a day in the calendar, or a keypress.
+     * and data committed with a double click on a day in the calendar, or a keypress.
      */
     public DatePickerTableCell() {
         picker = new DatePicker();
