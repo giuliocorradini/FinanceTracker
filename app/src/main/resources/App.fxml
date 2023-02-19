@@ -47,17 +47,23 @@
             </TableView>
         </center>
         <bottom>
-            <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER" spacing="10.0" styleClass="bottom_bar">
                 <children>
-                    <Label text="Income:" />
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="incomeSummary" />
-                    <Label text="Outcome:" />
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="outcomeSummary" />
-                    <Label text="Flow:" />
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" />
+                    <HBox alignment="CENTER_LEFT" spacing="5.0"><children>
+                        <Label text="Income:" styleClass="bottom_bar" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="incomeSummary" styleClass="bottom_bar" />
+                    </children></HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="5.0"><children>
+                        <Label text="Outcome:" styleClass="bottom_bar" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="outcomeSummary" styleClass="bottom_bar" />
+                    </children></HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="5.0"><children>
+                        <Label text="Flow:" styleClass="bottom_bar" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" styleClass="bottom_bar" />
+                    </children></HBox>
                     <Pane HBox.hgrow="ALWAYS" />
-                    <Button onAction="#showCustomPeriodSelector" text="Filter" />
-                    <Button id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
+                    <Button onAction="#showCustomPeriodSelector" text="Filter" styleClass="bottom_bar" />
+                    <Button id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" styleClass="bottom_bar" />
                 </children>
             </HBox>
         </bottom>

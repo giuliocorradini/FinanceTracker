@@ -6,24 +6,29 @@
 
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import com.sun.javafx.scene.control.ContextMenuContent.ArrowMenuItem?>
 <AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.controller.AddRecordDialogController" fx:id="addRecordDialog" styleClass="dialog" stylesheets="stylesheets/AddRecordDialog.css">
-   <VBox spacing="5.0" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+   <VBox spacing="20.0" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
       <children>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dialog-title" text="Add record" />
-         <Label text="Reason" />
-         <TextField fx:id="reason" />
-         <Label text="Amount" />
-         <TextField fx:id="amount" />
+         <AnchorPane>
+            <TextField fx:id="reason" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label text="Reason" styleClass="for-text-field"/>
+         </AnchorPane>
+         <AnchorPane>
+            <TextField fx:id="amount" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label text="Amount" styleClass="for-text-field"/>
+         </AnchorPane>
          <ButtonBar>
             <buttons>
-               <Button text="Income" onAction="#setIncome">
+               <Button text="Income" onAction="#setIncome" styleClass="top-layer" >
                   <graphic>
                      <ImageView preserveRatio="true" fitHeight="18">
                         <Image url="icons/income.png" />
                      </ImageView>
                   </graphic>
                </Button>
-               <Button text="Outcome" onAction="#setOutcome">
+               <Button text="Outcome" onAction="#setOutcome" styleClass="top-layer" >
                   <graphic>
                      <ImageView preserveRatio="true" fitHeight="18">
                         <Image url="icons/outcome.png" />
@@ -32,13 +37,15 @@
                </Button>
             </buttons>
          </ButtonBar>
-         <Label text="Date" />
-         <DatePicker fx:id="date" />
+         <AnchorPane>
+            <DatePicker fx:id="date" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label text="Date" styleClass="for-text-field" />
+         </AnchorPane>
          <Pane VBox.vgrow="ALWAYS" />
          <ButtonBar>
             <buttons>
-               <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
-               <Button mnemonicParsing="false" onAction="#handleSubmit" text="Add" />
+               <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" styleClass="top-layer" />
+               <Button mnemonicParsing="false" onAction="#handleSubmit" text="Add" styleClass="top-layer"/>
             </buttons>
          </ButtonBar>
       </children>

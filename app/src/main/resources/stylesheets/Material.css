@@ -39,7 +39,7 @@ CheckBox {
 
 .check-box:selected .box {
     -fx-background-color: #216c2e;
-    -fx-border-color: #216c2e;
+    -fx-border-color: #216c2e;  /*primary color*/
 }
 .check-box:selected .mark {
     -fx-background-color: white;
