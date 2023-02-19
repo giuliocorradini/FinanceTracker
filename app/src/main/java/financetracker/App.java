@@ -4,6 +4,9 @@ import financetracker.gui.ControllerFactory;
 import financetracker.gui.model.BalanceModel;
 import financetracker.gui.ViewLoader;
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -90,8 +93,14 @@ public class App extends Application {
             });
         }
 
-        t.scheduleAtFixedRate(autosaveFacility, 2*60*1000, 2*60*1000);
-
+        // Start the auto-save task immediately when the first edit is made.
+        this.model.editedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                t.scheduleAtFixedRate(autosaveFacility, 0, 2 * 60 * 1000);
+                observable.removeListener(this);
+            }
+        });
     }
 
     /**
