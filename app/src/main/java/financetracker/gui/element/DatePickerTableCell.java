@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * A cell that shows a date, and a DatePicker control when editing.
+ * If date parsing arises an error, styles itself according to the "error" style class.
  * @param <T> the class representing a table row.
  */
 public class DatePickerTableCell<T> extends StylingControlCell<T, LocalDate> {
@@ -80,11 +81,12 @@ public class DatePickerTableCell<T> extends StylingControlCell<T, LocalDate> {
 
     /**
      * Parse the current text in DatePicker and attempt to convert it to a date.
+     * But doesn't throw an exception.
      * @return a date
      */
     private LocalDate getDate() {
         if (getText() == null)
             return LocalDate.now();
-        return LocalDate.parse(getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return converter.fromString(getText());
     }
 }

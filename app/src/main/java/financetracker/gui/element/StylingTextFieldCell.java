@@ -11,12 +11,11 @@ import java.text.ParseException;
 
 
 /**
- * This class represents a table cell that holds a value, but styles itself
- * if an error arises while parsing.
+ * This class represents a table cell that holds an editable string
+ * and can apply an error styling by using the {@link #errorProperty()}.
  *
- * <p>
- *     The actual conversion is made in the updateItem method
- * </p>
+ * Overriding classes need only to set a converter.
+ *
  * @param <S> the row model.
  * @param <T> the column field type
  */
@@ -26,7 +25,9 @@ public class StylingTextFieldCell<S, T> extends StylingControlCell<S, T> {
 
 
     /**
-     * Constructor
+     * Constructor.
+     *
+     * Creates a text field and sets the necessary events to start and commit edits.
      */
     public StylingTextFieldCell() {
         super();

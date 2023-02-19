@@ -12,7 +12,14 @@ import javafx.scene.control.TableCell;
  * if an error arises while parsing.
  *
  * <p>
- *     The actual conversion is made in the updateItem method
+ *     This class provides an {@link #errorProperty()} that is bound to the set/reset
+ *     of a cell's style. The inheriting class must call setError when appropriate.
+ *     This class automatically resets the error style when focus is lost.
+ * </p>
+ *
+ * <p>
+ *     The parsing follows a sort of Execute Around pattern, as it is responsibility
+ *     of the overriding class to provide a converter and use it to set the error property accordingly.
  * </p>
  * @param <S> the row model.
  * @param <T> the column field type
