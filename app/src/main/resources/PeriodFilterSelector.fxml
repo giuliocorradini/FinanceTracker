@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Button?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="financetracker.gui.controller.PeriodFilterSelectorController" fx:id="rootPane">
+    <top>
+        <Text text="Select a period" />
+    </top>
+    <center>
+        <VBox>
+            <Label text="End date:" />
+            <DatePicker fx:id="endDatePicker" />
+            <Label text="Start date:" />
+            <DatePicker fx:id="startDatePicker" />
+            <HBox>
+                <children>
+                    <Button text="Today" onAction="#handleQuickPeriod"/>
+                    <Button text="A week" onAction="#handleQuickPeriod"/>
+                    <Button text="A month" onAction="#handleQuickPeriod"/>
+                    <Button text="A year" onAction="#handleQuickPeriod"/>
+                    <Button text="All" onAction="#handleQuickPeriod"/>
+                </children>
+            </HBox>
+        </VBox>
+    </center>
+    <bottom>
+        <ButtonBar>
+            <buttons>
+                <Button text="Cancel" onAction="#handleCancel" />
+                <Button text="Confirm" onAction="#handleConfirm" />
+            </buttons>
+        </ButtonBar>
+    </bottom>
+</BorderPane>

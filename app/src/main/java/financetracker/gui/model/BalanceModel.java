@@ -97,7 +97,7 @@ public class BalanceModel {
     public BalanceModel(Balance data) {
         this.dao = data;
         this.records = FXCollections.observableArrayList();
-        this.periodFilter = new SimpleObjectProperty<>(PeriodFilter.ALL);
+        this.periodFilter = new SimpleObjectProperty<>(PeriodFilter.ALL());
         this.updateModelFromDAO();
 
         Summary s = this.getBalanceSummary();
@@ -120,8 +120,8 @@ public class BalanceModel {
 
         PeriodFilter currentPeriodFilter = getPeriodFilter();
 
-        if (currentPeriodFilter != PeriodFilter.ALL) {
-            elements = BalanceFilter.filterByDateStream(elements, currentPeriodFilter.getStartDate(), currentPeriodFilter.getEndDate());
+        if (!currentPeriodFilter.all()) {
+            elements = BalanceFilter.filterByDateStream(elements, currentPeriodFilter.startDate(), currentPeriodFilter.endDate());
         }
 
         return elements;
@@ -220,8 +220,8 @@ public class BalanceModel {
         this.dao.addRecord(r);
 
         PeriodFilter f = getPeriodFilter();
-        if(f != PeriodFilter.ALL && !BalanceFilter.isRecordBetween(r, f.getStartDate(), f.getEndDate()))
-            this.setPeriodFilter(PeriodFilter.ALL);
+        if(!f.all() && !BalanceFilter.isRecordBetween(r, f.startDate(), f.endDate()))
+            this.setPeriodFilter(PeriodFilter.ALL());
 
         //Retrieve updated data from DAO
         updateModelFromDAO();
@@ -280,7 +280,7 @@ public class BalanceModel {
      * Sets the period filter to ALL
      */
     public void resetFilter() {
-        setPeriodFilter(PeriodFilter.ALL);
+        setPeriodFilter(PeriodFilter.ALL());
     }
 
     /**

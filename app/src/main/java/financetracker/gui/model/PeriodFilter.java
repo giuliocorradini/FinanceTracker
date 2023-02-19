@@ -4,55 +4,24 @@ import java.time.LocalDate;
 
 /**
  * This class represents a time window to filter BalanceModel rows.
- *
- * <p>
- *      N.B. date edits should be performed on CUSTOM element only.
- * </p>
+ * The boolean attribute {@link #all} marks if the period shouldn't filter
+ * and show all the records instead.
  */
-public enum PeriodFilter {
-    ALL         ("All", -1),
-    THIS_DAY    ("This day", 0),
-    THIS_WEEK   ("This week", 6),
-    THIS_MONTH  ("This month", 29),
-    THIS_YEAR   ("This year", 364),
-    CUSTOM      ("Custom", 0);
-
-    private final String descriptor;
-    private final int period;
-
-    private LocalDate startDate;
-
-    private LocalDate endDate;
+public record PeriodFilter(boolean all, LocalDate startDate, LocalDate endDate) {
+    /**
+     * Constructor for standard period filters where start and end date are meaningful.
+     * @param startDate the start date
+     * @param endDate the end date
+     */
+    public PeriodFilter(LocalDate startDate, LocalDate endDate) {
+        this(false, startDate, endDate);
+    }
 
     /**
-     * Constructor
-     * @param desc a brief description that is shown on controls.
-     * @param period in days between start and end date, for automatic computation.
+     * Factory for period filters that don't filter at all.
+     * @return a new PeriodFilter with all field set to true.
      */
-    PeriodFilter(String desc, int period) {
-        this.descriptor = desc;
-        this.period = period;
-        this.endDate = LocalDate.now();
-        this.startDate = this.endDate.minusDays(this.period);
-    }
-
-    public String toString() {
-        return this.descriptor;
-    }
-
-    public LocalDate getEndDate() {
-        return this.endDate;
-    }
-
-    public LocalDate getStartDate() {
-        return this.startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public static PeriodFilter ALL() {
+        return new PeriodFilter(true, null, null);
     }
 }

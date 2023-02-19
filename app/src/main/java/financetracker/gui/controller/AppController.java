@@ -14,12 +14,10 @@ import financetracker.io.Persistence;
 import financetracker.io.export.CSV;
 import financetracker.io.export.Export;
 import financetracker.io.export.OpenDocument;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -46,7 +44,6 @@ public class AppController implements ModelInjectable {
 
     private BalanceModel model;
 
-    @FXML private ChoiceBox<PeriodFilter> periodSelector;
     @FXML private TableView<RecordTableModel> recordTable;
     @FXML private ContextMenu tableContextMenu;
     @FXML private MenuItem deleteMenuItem;
@@ -142,16 +139,7 @@ public class AppController implements ModelInjectable {
         outcomeSummary.textProperty().bind(this.model.outcomeProperty().asString("%.2f"));
         flowSummary.textProperty().bind(this.model.flowProperty().asString("%.2f"));
 
-        periodSelector.setItems(FXCollections.observableArrayList(PeriodFilter.values()));
-        periodSelector.setValue(PeriodFilter.ALL);
-        this.model.periodFilterProperty().addListener(
-                (obs, ov, nv) -> periodSelector.setValue(nv)
-        );
-
         opaqueLayer.visibleProperty().bind(addRecordDialog.visibleProperty());
-
-        periodEditButton.managedProperty().bind(periodEditButton.visibleProperty());
-        periodEditButton.setVisible(false);
     }
 
     @FXML protected void handleAddButtonClick() {
@@ -231,7 +219,7 @@ public class AppController implements ModelInjectable {
             try {
                 Balance b = p.loadData(file);
                 this.model.replaceDAO(b);
-                periodSelector.setValue(PeriodFilter.ALL);
+                this.model.resetFilter();
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Can't load the specified file.", ButtonType.OK);
                 a.showAndWait();
@@ -267,7 +255,7 @@ public class AppController implements ModelInjectable {
      */
     @FXML protected void showCustomPeriodSelector() {
         Parent root = ViewLoader.load(
-                "CustomPeriodFilterSelector.fxml",
+                "PeriodFilterSelector.fxml",
                 cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
         );
 
@@ -276,23 +264,6 @@ public class AppController implements ModelInjectable {
         stage.setScene(scene);
         stage.setTitle("Select custom period");
         stage.show();
-    }
-
-    /**
-     * Handles a filter selection, from the dropdown menu; and sets it in the model.
-     * @param evt
-     */
-    @FXML protected void handleFilterSelection(ActionEvent evt) {
-        PeriodFilter f = periodSelector.getValue();
-        if(f != null) {
-            if(f == PeriodFilter.CUSTOM) {
-                periodEditButton.setVisible(true);
-            } else {
-                periodEditButton.setVisible(false);
-            }
-
-            this.model.filterRecords(f);
-        }
     }
 
     /**
