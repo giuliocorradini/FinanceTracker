@@ -9,6 +9,7 @@ import financetracker.gui.ViewLoader;
 import financetracker.gui.element.DatePickerTableCell;
 import financetracker.gui.element.HighlightableTextFieldCell;
 import financetracker.gui.element.IconTableCell;
+import financetracker.gui.model.PeriodFilter;
 import financetracker.gui.model.RecordTableModel;
 import financetracker.io.Persistence;
 import financetracker.io.export.CSV;
@@ -60,6 +61,7 @@ public class AppController implements ModelInjectable {
     @FXML private MenuItem multirowDeleteMenu;
     @FXML private Pane opaqueLayer;
     @FXML private MenuItem columnarExportMenuItem;
+    @FXML private MenuItem saveButton;
     private Persistence p;
     private NumberFormat fmt;
     private Stage searchWindow;
@@ -378,5 +380,12 @@ public class AppController implements ModelInjectable {
             askToSave();
 
         this.model.resetAll();
+    }
+
+    /**
+     * Deletes the current filter and shows all records.
+     */
+    @FXML protected void showAll() {
+        this.model.filterRecords(PeriodFilter.ALL());
     }
 }

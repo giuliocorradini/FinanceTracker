@@ -21,7 +21,6 @@ public class PeriodFilterSelectorController implements ModelInjectable {
     @FXML private DatePicker endDatePicker;
     @FXML private Pane rootPane;
     private BalanceModel model;
-    private boolean all = false;
 
     @FXML public void initialize() {
         cleanUp();
@@ -68,7 +67,7 @@ public class PeriodFilterSelectorController implements ModelInjectable {
             Alert a = new Alert(Alert.AlertType.ERROR, "Start date can't be after the end date.", ButtonType.OK);
             a.showAndWait();
         } else {
-            PeriodFilter f = new PeriodFilter(all, start, end);
+            PeriodFilter f = new PeriodFilter(start, end);
             this.model.filterRecords(f);
             closeThisWindow();
         }
@@ -81,13 +80,11 @@ public class PeriodFilterSelectorController implements ModelInjectable {
     public void handleQuickPeriod(ActionEvent evt) {
         Button src = (Button) evt.getSource();
 
-        all = false;
         switch(src.getText()) {
-            case "All" -> all = true;
-            case "Today" -> startDatePicker.setValue(endDatePicker.getValue().minusDays(1));
-            case "A week" -> startDatePicker.setValue(endDatePicker.getValue().minusWeeks(1));
-            case "A month" -> startDatePicker.setValue(endDatePicker.getValue().minusMonths(1));
-            case "A year" -> startDatePicker.setValue(endDatePicker.getValue().minusYears(1));
+            case "1 day" -> startDatePicker.setValue(endDatePicker.getValue().minusDays(1));
+            case "1 week" -> startDatePicker.setValue(endDatePicker.getValue().minusWeeks(1));
+            case "1 month" -> startDatePicker.setValue(endDatePicker.getValue().minusMonths(1));
+            case "1 year" -> startDatePicker.setValue(endDatePicker.getValue().minusYears(1));
         }
     }
 }

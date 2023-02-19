@@ -20,11 +20,10 @@
             <DatePicker fx:id="startDatePicker" />
             <HBox>
                 <children>
-                    <Button text="Today" onAction="#handleQuickPeriod"/>
-                    <Button text="A week" onAction="#handleQuickPeriod"/>
-                    <Button text="A month" onAction="#handleQuickPeriod"/>
-                    <Button text="A year" onAction="#handleQuickPeriod"/>
-                    <Button text="All" onAction="#handleQuickPeriod"/>
+                    <Button text="1 day" onAction="#handleQuickPeriod"/>
+                    <Button text="1 week" onAction="#handleQuickPeriod"/>
+                    <Button text="1 month" onAction="#handleQuickPeriod"/>
+                    <Button text="1 year" onAction="#handleQuickPeriod"/>
                 </children>
             </HBox>
         </VBox>

@@ -11,7 +11,7 @@
                 <menus>
                     <Menu mnemonicParsing="false" text="File">
                         <items>
-                            <MenuItem mnemonicParsing="false" text="Save" onAction="#handleSave" />
+                            <MenuItem mnemonicParsing="false" text="Save as..." onAction="#handleSave" />
                             <MenuItem mnemonicParsing="false" text="Load" onAction="#handleLoad" />
                             <MenuItem mnemonicParsing="false" text="Close" onAction="#handleClose" />
                             <Menu mnemonicParsing="false" text="Export...">
@@ -31,13 +31,13 @@
             </MenuBar>
         </top>
         <center>
-            <TableView fx:id="recordTable" BorderPane.alignment="CENTER" >
+            <TableView fx:id="recordTable" BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="selectColumn" prefWidth="25.0" resizable="false" />
                     <TableColumn fx:id="recordTypeColumn" prefWidth="40.0" resizable="false" />
-                    <TableColumn fx:id="amountColumn" prefWidth="${(recordTable.width - 65) * 0.15}"  text="Amount" />
-                    <TableColumn fx:id="dateColumn" prefWidth="${(recordTable.width - 65) * 0.15}"  text="Date" />
-                    <TableColumn fx:id="reasonColumn" prefWidth="${(recordTable.width - 65) * 0.7}" text="Reason" />
+                    <TableColumn fx:id="amountColumn" prefWidth="${(recordTable.width - 65) * 0.15}"  text="Amount" resizable="false"/>
+                    <TableColumn fx:id="dateColumn" prefWidth="${(recordTable.width - 65) * 0.15}"  text="Date" resizable="false"/>
+                    <TableColumn fx:id="reasonColumn" prefWidth="${(recordTable.width - 65) * 0.7}" text="Reason" resizable="false"/>
                 </columns>
                 <ContextMenu fx:id="tableContextMenu" >
                     <items>
@@ -62,6 +62,7 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" fx:id="flowSummary" styleClass="bottom_bar" />
                     </children></HBox>
                     <Pane HBox.hgrow="ALWAYS" />
+                    <Button text="Show all" onAction="#showAll" styleClass="bottom_bar"/>
                     <Button onAction="#showCustomPeriodSelector" text="Filter" styleClass="bottom_bar" />
                     <Button id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" styleClass="bottom_bar" />
                 </children>
