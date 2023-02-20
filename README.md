@@ -42,7 +42,7 @@ and to run it
 To generate documentation use:
 
 ```shell
-./gradlew javadoc
+./gradlew javadoc --warning-mode none
 ```
 
 then navigate to `app/build/docs/javadoc` or launch an http server
