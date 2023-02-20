@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -75,6 +76,7 @@ public class App extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("FinanceTracker");
+        primaryStage.getIcons().add(new Image("icons/Logo.png"));
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(600);
         primaryStage.show();
