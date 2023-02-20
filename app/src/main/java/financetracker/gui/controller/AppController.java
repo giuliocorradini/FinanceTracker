@@ -65,6 +65,8 @@ public class AppController implements ModelInjectable {
     private NumberFormat fmt;
     private Stage searchWindow;
     private Scene searchScene;
+    private Stage filterWindow;
+    private Scene filterScene;
 
     /**
      * Constructor. Sets up the persistence mechanism and a formatter for double parsing.
@@ -279,21 +281,33 @@ public class AppController implements ModelInjectable {
         );
     }
 
+    private void loadCustomPeriodWindow() {
+        Parent root = ViewLoader.load(
+            "PeriodFilterSelector.fxml",
+            cls -> ControllerFactory.buildController(cls, model)
+        );
+
+        filterScene = new Scene(root, 500, 300);
+    }
+
     /**
      * Shows the custom period selector window.
      */
     @FXML protected void showCustomPeriodSelector() {
-        Parent root = ViewLoader.load(
-                "PeriodFilterSelector.fxml",
-                cls -> ControllerFactory.buildController(cls, model)   //this lambda IS the factory method
-        );
-
-        Scene scene = new Scene(root, 500, 300);
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setTitle("Select custom period");
-        stage.show();
+        if(filterScene == null)
+            loadCustomPeriodWindow();
+        
+        if(filterWindow == null) {
+            filterWindow = new Stage();
+            filterWindow.setResizable(false);
+            filterWindow.setScene(filterScene);
+            filterWindow.setTitle("Select custom period");
+            filterWindow.show();
+        } else {
+            filterWindow.show();
+            filterWindow.requestFocus();
+            filterWindow.toFront();
+        }
     }
 
     /**
